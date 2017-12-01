@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<BorderPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui_control.sequence_editor.SequenceBuilderController">
+   <center>
+      <SplitPane dividerPositions="0.45484949832775917" prefHeight="160.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+        <items>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+               <children>
+                  <TableView fx:id="table_view" layoutX="7.0" layoutY="47.0" prefHeight="398.0" prefWidth="214.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                    <columns>
+                      <TableColumn fx:id="mode_column" prefWidth="75.0" text="MODE" />
+                      <TableColumn fx:id="timeOn_column" prefWidth="75.0" text="TIME ON" />
+                        <TableColumn fx:id="timeOff_column" prefWidth="63.0" text="TIME OFF" />
+                        <TableColumn fx:id="repeat_column" prefWidth="55.0" text="REPEAT" />
+                    </columns>
+                  </TableView>
+               </children>
+            </AnchorPane>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+               <children>
+                  <VBox prefHeight="400.0" prefWidth="327.0">
+                     <children>
+                        <FlowPane alignment="CENTER" prefHeight="42.0" prefWidth="327.0">
+                           <children>
+                              <Text stroke="BLACK" strokeType="OUTSIDE" strokeWidth="0.0" text="LIGHT PATTERN" wrappingWidth="98.13671875">
+                                 <font>
+                                    <Font name="System Bold" size="12.0" />
+                                 </font>
+                                 <FlowPane.margin>
+                                    <Insets left="4.0" />
+                                 </FlowPane.margin>
+                              </Text>
+                              <Label fx:id="segment_error" alignment="CENTER" prefHeight="17.0" prefWidth="222.0" />
+                           </children>
+                        </FlowPane>
+                        <GridPane alignment="CENTER" nodeOrientation="LEFT_TO_RIGHT" prefHeight="325.0" prefWidth="327.0">
+                          <columnConstraints>
+                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="203.0" minWidth="10.0" prefWidth="164.0" />
+                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="188.0" minWidth="10.0" prefWidth="159.0" />
+                          </columnConstraints>
+                          <rowConstraints>
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                          </rowConstraints>
+                           <children>
+                              <Label alignment="CENTER" prefHeight="33.0" prefWidth="96.0" text="MODE" GridPane.halignment="CENTER" />
+                              <ChoiceBox fx:id="select_mode" prefHeight="25.0" prefWidth="69.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" />
+                              <Label text="TIME ON [ms]" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
+                              <Label text="TIME OFF [ms]" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
+                              <TextField fx:id="timeOn" maxWidth="70.0" prefHeight="25.0" prefWidth="40.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
+                              <TextField fx:id="timeOff" maxWidth="70.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
+                              <Button fx:id="add_Button" mnemonicParsing="false" onAction="#addLEDModel" text="ADD" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
+                           </children>
+                        </GridPane>
+                        <Separator prefHeight="0.0" prefWidth="327.0" />
+                        <VBox prefHeight="83.0" prefWidth="327.0">
+                           <children>
+                              <FlowPane alignment="CENTER" prefHeight="20.0" prefWidth="327.0">
+                                 <children>
+                                    <Text stroke="BLACK" strokeType="OUTSIDE" strokeWidth="0.0" text="SEQUENCE" wrappingWidth="71.13671875">
+                                       <font>
+                                          <Font name="System Bold" size="12.0" />
+                                       </font>
+                                       <FlowPane.margin>
+                                          <Insets left="4.0" />
+                                       </FlowPane.margin>
+                                    </Text>
+                                    <Label fx:id="sequence_error" alignment="CENTER" prefHeight="17.0" prefWidth="247.0" />
+                                 </children>
+                              </FlowPane>
+                              <FlowPane alignment="CENTER_LEFT" prefHeight="200.0" prefWidth="327.0">
+                                 <children>
+                                    <TextField fx:id="enter_name" prefHeight="25.0" prefWidth="155.0" promptText="Name">
+                                       <padding>
+                                          <Insets right="20.0" />
+                                       </padding>
+                                       <FlowPane.margin>
+                                          <Insets left="20.0" right="20.0" />
+                                       </FlowPane.margin>
+                                    </TextField>
+                                  <Button fx:id="save_Button" alignment="CENTER" minWidth="52.0" mnemonicParsing="false" onAction="#save_sequence" prefHeight="25.0" prefWidth="52.0" text="SAVE">
+                                       <FlowPane.margin>
+                                          <Insets left="20.0" />
+                                       </FlowPane.margin>
+                                    </Button>
+                                 </children>
+                              </FlowPane>
+                           </children>
+                        </VBox>
+                     </children>
+                  </VBox>
+               </children>
+            </AnchorPane>
+        </items>
+      </SplitPane>
+   </center>
+</BorderPane>

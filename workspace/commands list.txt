@@ -1,0 +1,6 @@
+ANI:	[animation]/[color]/[brightness]/[speed]
+
+LIGHT:	[side]/[operation]/[led]/[color]/[brightness]
+
+LEVEL:	[ledlevel]/[color]/[brightness]
+

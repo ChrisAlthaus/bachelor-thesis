@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.TilePane?>
+
+<BorderPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1">
+   <center>
+      <GridPane alignment="CENTER" maxHeight="314.0" maxWidth="501.0" prefHeight="233.0" prefWidth="501.0" BorderPane.alignment="CENTER">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="261.0" minWidth="10.0" prefWidth="170.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="249.0" minWidth="-Infinity" prefWidth="205.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <TilePane alignment="CENTER" orientation="VERTICAL" prefHeight="51.0" prefWidth="221.0" GridPane.rowIndex="1">
+               <children>
+                  <Label alignment="CENTER" prefHeight="51.0" prefWidth="73.0" text="SELECT PIN:" TilePane.alignment="CENTER">
+                     <TilePane.margin>
+                        <Insets left="20.0" />
+                     </TilePane.margin>
+                  </Label>
+                  <ChoiceBox fx:id="led_pins" prefHeight="25.0" prefWidth="67.0" />
+               </children>
+            </TilePane>
+            <TilePane alignment="CENTER" prefHeight="200.0" prefWidth="200.0">
+               <children>
+                  <Label alignment="CENTER" prefHeight="77.0" prefWidth="93.0" text="PORT:" TilePane.alignment="CENTER" />
+                  <ChoiceBox fx:id="select_port" prefHeight="25.0" prefWidth="65.0" />
+               </children>
+            </TilePane>
+            <TilePane alignment="CENTER" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
+               <children>
+                  <Label fx:id="error_label" alignment="CENTER" prefHeight="37.0" prefWidth="216.0" TilePane.alignment="CENTER">
+                     <TilePane.margin>
+                        <Insets left="40.0" />
+                     </TilePane.margin></Label>
+               </children>
+            </TilePane>
+         </children>
+         <BorderPane.margin>
+            <Insets left="20.0" />
+         </BorderPane.margin>
+      </GridPane>
+   </center>
+</BorderPane>
