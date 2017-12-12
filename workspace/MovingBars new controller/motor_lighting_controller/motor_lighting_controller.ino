@@ -77,11 +77,11 @@ void loop() {
 	
 	if (process_it){
     message [pos] = 0;
-    Serial.println("message=");  
-    Serial.println(message[0]);
-	  Serial.println(message[1]);
-    Serial.println(message[2]);
-    Serial.println(message[3]);
+    //Serial.println("message=");  
+    //Serial.println(message[0]);
+	  //Serial.println(message[1]);
+    //Serial.println(message[2]);-
+    //Serial.println(message[3]);
     
     if(sizeof(message)!=100){
       Serial.println("error");
@@ -91,12 +91,15 @@ void loop() {
 	
 	  parseMessage();
   } 
+
+
     
     // Perfom animations:
     // 1. setAnimation
     // 2. runAnimation
   //led.runAnimation();
-  delay(1000);
+  //testButtons();
+  //delay(1000);
 }
 
 // SPI interrupt routine
@@ -108,8 +111,8 @@ ISR (SPI_STC_vect)
   if (pos < sizeof message)
     {
     message [pos++] = char(c);
-    Serial.println("get a byte");
-    Serial.println(c);
+    //Serial.println("get a byte");
+    //Serial.println(c);
     if (c == '\n')
       process_it = true;
       
@@ -132,6 +135,14 @@ void test(){
   
 }
 
+void testButtons(){
+  debug.println("Button1=",ctl.getButton1Value());
+  debug.println("Button2=",ctl.getButton2Value());
+  debug.println("IR=",ctl.getIRValue());
+
+  delay(1000);
+}
+
 
 void parseMessage() {
   int mode=message[0];
@@ -139,8 +150,8 @@ void parseMessage() {
   Serial.println("Parsing message....");
   
   if(mode == MODE.MOVE){
-    int targetPosition=message[1];
-    String stepMode=getStepMode(message[2]);
+    int targetPosition=50; //message[1];
+    String stepMode="HALF";getStepMode(message[2]);
 
     if(isValidPosition(targetPosition)& stepMode != "INVALID"){
       _hasNewTargetPosition = true; // activate movement
@@ -166,7 +177,7 @@ void parseMessage() {
     //Serial.println(steps);
   
   }else if(mode == MODE.DOWN){
-    int steps=3000;//message[1];
+    int steps=400;//message[1];
     handleMove("DOWN",steps);
      
     debug.println("DOWN", steps); 
@@ -255,13 +266,15 @@ void parseMessage() {
 		debug.print("Brightness:", rgba[3]); 
     }
 
-    rgba[0] = 10;
+    /*rgba[0] = 10;
     rgba[1] = 255;
     rgba[2] = 50;
-    rgba[3] = 100;
-     // Update Lighting Pattern
-    //setLighting(side, operation, led, rgba);
-    setLighting("A", "+", led, rgba);
+    rgba[3] = 100;*/
+	
+    
+	// Update Lighting Pattern
+    setLighting(side, operation, led, rgba);
+    
     Serial.println("LIGHT");
     Serial.println(field);
     Serial.println(side);
@@ -290,10 +303,10 @@ void parseMessage() {
       
   
     // Update Lighting Pattern
-    //setLighting("A","+",level,rgba);
-    //setLighting("B","+",level,rgba);
-    //setLighting("C","+",level,rgba);
-    //setLighting("D","+",level,rgba);
+    setLighting("A","+",ledLevel,rgba);
+    setLighting("B","+",ledLevel,rgba);
+    setLighting("C","+",ledLevel,rgba);
+    setLighting("D","+",ledLevel,rgba);
     
     Serial.println("LEVEL");
     Serial.println(ledLevel);
@@ -310,7 +323,7 @@ void handleMove(String mode,int steps){
 	
     if(isValidStepNumber(steps)){  
       if(mode=="UP"){
-		    ctl.up();
+		    //ctl.up();
         ctl.moveUp(steps);
       }else if(mode=="DOWN"){
         ctl.moveDown(steps);
@@ -318,7 +331,7 @@ void handleMove(String mode,int steps){
     }else{
       debug.print("[Default Value: 400 Steps]");
       if(mode=="UP"){
-		ctl.up();
+		    //ctl.up();
         ctl.moveUp(400);
       }else if(mode=="DOWN"){
         ctl.moveDown(400);

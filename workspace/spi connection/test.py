@@ -12,6 +12,12 @@ def main():
 	print(getByteArrayFromNumber(400,2))
 	
 	print(int("FFFFFF",16))
+	print(int("0xFFFFFF",16))
+	
+	print(int(0,16))
+	
+	print(round(3.6))
+	print(round(3.5))
 	
 	
 def getByteArrayFromNumber(number,numberBytes):
