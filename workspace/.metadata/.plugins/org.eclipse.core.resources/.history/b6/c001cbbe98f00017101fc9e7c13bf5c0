@@ -1,0 +1,66 @@
+package gui_control.ScenarioModel;
+
+import java.util.Date;
+
+public class ScenarioModel {
+	String requestURL;
+	String pathToXML;
+	String pathToJson;
+	String name;
+	Date creationDate;
+	
+	public ScenarioModel(String requestURL, String pathToXML, String pathToJson) {
+		this.requestURL = requestURL;
+		this.pathToXML = pathToXML;
+		this.pathToJson = pathToJson;
+	}
+	
+	public ScenarioModel() {
+		
+	}
+	
+	
+
+	public Date getCreationDate() {
+		return creationDate;
+	}
+
+	public void setCreationDate(Date creationDate) {
+		this.creationDate = creationDate;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	
+	public String getRequestURL() {
+		return requestURL;
+	}
+
+	public void setRequestURL(String requestURL) {
+		this.requestURL = requestURL;
+	}
+
+	public String getPathToXML() {
+		return pathToXML;
+	}
+
+	public void setPathToXML(String pathToXML) {
+		this.pathToXML = pathToXML;
+	}
+
+	public String getPathToJson() {
+		return pathToJson;
+	}
+
+	public void setPathToJson(String pathToJson) {
+		this.pathToJson = pathToJson;
+	}
+	
+	
+}

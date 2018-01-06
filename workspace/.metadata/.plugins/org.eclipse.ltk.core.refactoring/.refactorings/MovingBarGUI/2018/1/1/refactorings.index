@@ -1,0 +1,16 @@
+1514811730688	Rename package 'application'
+1514811747647	Rename package 'mainView'
+1514823769966	Delete element
+1514832004203	Rename compilation unit 'JSONParser.java'
+1514832609246	Rename compilation unit 'JSONBuilder.java'
+1514833626089	Delete element
+1514910906596	Rename resource 'MovingBarsSettingView.fxml'
+1514915350823	Rename package 'gui_control.MovingBarsSettingView'
+1514915463302	Rename package 'gui_control.MovingBarSettingView'
+1514918258634	Rename package 'gui_control.MovingBarsSettingView'
+1514918778955	Rename package 'MovingBarSideModel'
+1515067619101	Rename type 'database'
+1515153737526	Rename type 'WirelessModel'
+1515154652891	Rename type 'SettingViewController'
+1515171422086	Rename type 'WirelessConnection'
+1515171594755	Move compilation unit

@@ -1,0 +1,56 @@
+package gui_control.SettingView;
+
+import java.io.IOException;
+
+import gui_control.ScenarioModel.ScenarioModel;
+import gui_control.WirelessConnection.WirelessConnection;
+import gui_control.WirelessModel.WirelessConnectionModel;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.fxml.FXML;
+import javafx.scene.control.Button;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
+
+public class SettingController {
+	 @FXML
+	 private TableView<WirelessConnectionModel> devicesTableview;
+
+	 @FXML
+	 private TableColumn<WirelessConnectionModel, String> devicesNameTableColumn;
+
+	 @FXML
+	 private TableColumn<WirelessConnectionModel, String> devicesAddressTableColumn;
+
+	 @FXML
+	 private Button searchDevicesButton;
+
+	 @FXML
+	 private Button SelectDeviceButton;
+	 
+	 WirelessConnection conn = new WirelessConnection();
+	 ObservableList<WirelessConnectionModel> wirelessConnections = FXCollections.observableArrayList();
+	 
+	 
+	 public void initialize() throws InterruptedException{
+			
+			devicesNameTableColumn.setCellValueFactory(new PropertyValueFactory<>("deviceName"));
+		 	devicesAddressTableColumn.setCellValueFactory(new PropertyValueFactory<>("deviceAddress"));
+			
+			try {
+				conn.searchForDevices();
+				wirelessConnections = FXCollections.observableArrayList(conn.getWirelessConnectionModels());
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			
+			devicesTableview.setItems(wirelessConnections);
+		}
+	 
+	 public void searchForDevices() throws IOException, InterruptedException{
+		 wirelessConnections = null;
+		 conn.searchForDevices();
+		 wirelessConnections = FXCollections.observableArrayList(conn.getWirelessConnectionModels());
+	 }
+}

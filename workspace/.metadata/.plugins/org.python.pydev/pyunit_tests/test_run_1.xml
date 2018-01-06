@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?pydev-testrun version="1.0"?><pydev-testsuite>
+<summary errors="2" failures="0" finished="true" name="Test Run: 1" tests="0" total_time="Finished in: 0.00 secs."/>
+<test location="C:/Users/Christian/Desktop/Informatik/7.Semester/Bachelorarbeit/workspace/weatherHandler/src/weatherHandler/valueHolder.py" status="error" test="valueHolder" time="0">
+<stdout/>
+<stderr><![CDATA[Traceback (most recent call last):
+  File "C:\Users\Christian\Desktop\Informatik\7.Semester\Bachelorarbeit\eclipse\plugins\org.python.pydev_6.2.0.201711281614\pysrc\_pydev_runfiles\pydev_runfiles.py", line 468, in __get_module_from_str
+    mod = __import__(modname)
+  File "C:\Users\Christian\Desktop\Informatik\7.Semester\Bachelorarbeit\workspace\weatherHandler\src\weatherHandler\valueHolder.py", line 4, in <module>
+    from weatherHandler import NUMBER_LEDS
+  File "C:\Users\Christian\Desktop\Informatik\7.Semester\Bachelorarbeit\workspace\weatherHandler\src\weatherHandler\__init__.py", line 1, in <module>
+    from value_holder import ValueHolder
+ModuleNotFoundError: No module named 'value_holder'
+ERROR: Module: valueHolder could not be imported (file: C:/Users/Christian/Desktop/Informatik/7.Semester/Bachelorarbeit/workspace/weatherHandler/src/weatherHandler/valueHolder.py).
+]]></stderr>
+</test>
+<test location="C:/Users/Christian/Desktop/Informatik/7.Semester/Bachelorarbeit/workspace/weatherHandler/src/weatherHandler/weatherHandler.py" status="error" test="weatherHandler" time="0">
+<stdout/>
+<stderr><![CDATA[Traceback (most recent call last):
+  File "C:\Users\Christian\Desktop\Informatik\7.Semester\Bachelorarbeit\eclipse\plugins\org.python.pydev_6.2.0.201711281614\pysrc\_pydev_runfiles\pydev_runfiles.py", line 468, in __get_module_from_str
+    mod = __import__(modname)
+  File "C:\Users\Christian\Desktop\Informatik\7.Semester\Bachelorarbeit\workspace\weatherHandler\src\weatherHandler\__init__.py", line 1, in <module>
+    from value_holder import ValueHolder
+ModuleNotFoundError: No module named 'value_holder'
+ERROR: Module: weatherHandler could not be imported (file: C:/Users/Christian/Desktop/Informatik/7.Semester/Bachelorarbeit/workspace/weatherHandler/src/weatherHandler/weatherHandler.py).
+]]></stderr>
+</test>
+<launch mode="run">
+<launch_memento><![CDATA[<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<launchConfiguration local="true" path="weatherHandler weatherHandler"/>
+]]></launch_memento>
+</launch>
+</pydev-testsuite>

@@ -30,13 +30,31 @@ struct initShortcut{
 
 initShortcut INIT={1,2,3};
 
+struct animationTypes{
+	byte SINGLE;
+	byte OVERALL;
+};
+
+animationTypes ANIMATIONTYPES={1,2};
+
 struct animations{
   byte BLINK;
+  byte BEACON;
+  byte STAIRCASE;
+  byte PULSESLOW;
+  
+  byte ON;
+  byte OFF;
+  byte UP;
+  byte DOWN;
+  byte COM;
+  byte BOUNCE;
+  byte MOVE;
   byte GLOW;
 
 };
 
-animations ANIMATION={1,2};
+animations ANIMATION={1,2,3,4,5,6,7,8,9,10,11,12};
 
 struct sides{
   char A;

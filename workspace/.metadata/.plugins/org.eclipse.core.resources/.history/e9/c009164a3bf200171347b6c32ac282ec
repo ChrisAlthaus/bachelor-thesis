@@ -1,0 +1,5 @@
+package gui_control.WirelessConnection;
+
+public class MessageHandler {
+
+}

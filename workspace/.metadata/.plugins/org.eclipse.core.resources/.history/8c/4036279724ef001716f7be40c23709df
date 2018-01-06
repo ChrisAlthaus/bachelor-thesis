@@ -1,0 +1,30 @@
+package gui_control.XMLParser;
+
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+
+
+import org.xml.sax.SAXException;
+
+import javafx.scene.control.TreeItem;
+import javafx.scene.control.TreeView;
+import net.sf.json.JSONObject;
+
+public class JSONBuilder {
+	JSONParser parser = new JSONParser();
+	
+	public String readData(File file){
+		Object obj = parser.parse(new FileReader(file.getPath()));
+		
+		JSONObject json = parseJsonFile
+	}
+	
+	
+	public TreeItem<String> getTreeView(File jsonFile){
+		// display data for file "data/tree.xml" in TreeView
+		TreeItem<String> root = readData(jsonFile);
+		TreeView<String> treeView = new TreeView<>(root);	
+		return root;
+	}
+}

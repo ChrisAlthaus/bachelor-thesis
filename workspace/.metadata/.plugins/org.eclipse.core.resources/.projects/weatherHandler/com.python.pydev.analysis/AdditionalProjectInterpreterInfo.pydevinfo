@@ -1,0 +1,100 @@
+-- VERSION_4
+-- START DISKCACHE_2
+C:\Users\Christian\Desktop\Informatik\7.Semester\Bachelorarbeit\workspace\.metadata\.plugins\org.eclipse.core.resources\.projects\weatherHandler\com.python.pydev.analysis\v2_indexcache
+spi.__init__|1512570226369704000|C:\Users\Christian\Desktop\Informatik\7.Semester\Bachelorarbeit\workspace\weatherHandler\src\spi\__init__.py
+weatherHandler.messageHandler|1513333377465628000|C:\Users\Christian\Desktop\Informatik\7.Semester\Bachelorarbeit\workspace\weatherHandler\src\weatherHandler\messageHandler.py
+weatherHandler.displayHandler|1513350972044058000|C:\Users\Christian\Desktop\Informatik\7.Semester\Bachelorarbeit\workspace\weatherHandler\src\weatherHandler\displayHandler.py
+spi.spiConnection|1512570412390071000|C:\Users\Christian\Desktop\Informatik\7.Semester\Bachelorarbeit\workspace\weatherHandler\src\spi\spiConnection.py
+weatherHandler.__init__|1512570757079774000|C:\Users\Christian\Desktop\Informatik\7.Semester\Bachelorarbeit\workspace\weatherHandler\src\weatherHandler\__init__.py
+weatherHandler.weatherHandler|1513512255004089000|C:\Users\Christian\Desktop\Informatik\7.Semester\Bachelorarbeit\workspace\weatherHandler\src\weatherHandler\weatherHandler.py
+weatherHandler.modes|1513333341388750000|C:\Users\Christian\Desktop\Informatik\7.Semester\Bachelorarbeit\workspace\weatherHandler\src\weatherHandler\modes.py
+weatherHandler.valueHolder|1513512760288610000|C:\Users\Christian\Desktop\Informatik\7.Semester\Bachelorarbeit\workspace\weatherHandler\src\weatherHandler\valueHolder.py
+-- END DISKCACHE
+-- START DICTIONARY
+20
+4=weatherHandler.messageHandler
+18=ValueHolder.displayFromBottomToTopMovingHeight
+20=ValueHolder.setAddSubValue
+1=weatherHandler.__init__
+12=SPI.__init__
+8=ValueHolder
+9=SPI
+3=weatherHandler.modes
+5=weatherHandler.valueHolder
+16=ValueHolder.setValueJson
+6=weatherHandler.displayHandler
+19=ValueHolder.scale
+17=ValueHolder.setValueXML
+7=spi.spiConnection
+15=ValueHolder.displayFromBottomToTop
+13=displayHandler.__init__
+2=weatherHandler.weatherHandler
+11=ValueHolder.__init__
+14=ValueHolder.displayRelative
+10=displayHandler
+-- END DICTIONARY
+-- START TREE 1
+35
+add|4|addNewValueObject!10@addNewValueObject!18@addSubValue!19@addSubValue!11@
+ani|3|animations!11@animationTypes!27@animations!27@
+cal|1|calibrate!34@
+cle|1|clearSide!34@
+col|3|colors!43@colors!11@colors!19@
+cur|1|currentStepMode!35@
+dat|1|data!11@
+dis|5|displayMode!11@displays!19@displayHandler!49@displays!11@displayData!18@
+get|5|getSideLedByte!34@getByteArrayFromNumber!34@getSideOperationLedByte!34@getTypeAnimationByte!34@getSteps!34@
+ini|2|initShortcut!11@initShortcut!27@
+led|1|LED_CHANGE_TIME_DELAY!35@
+len|2|LENGTH_ONE_LED!35@LENGTH_ONE_LED!11@
+lig|2|lightOperations!27@lightOperations!11@
+mai|2|main!10@main!18@
+map|1|map!34@
+max|3|MAX_LED_BRIGHTNESS!43@MAX_LED_BRIGHTNESS!11@MAX_LED_BRIGHTNESS!35@
+mod|2|modes!27@modes!11@
+mov|5|moveDownNumberLeds!34@moveUp!34@moveUpNumberLeds!34@moveToPercentage!34@moveDown!34@
+num|6|NUMBER_LEDS!35@NUMBER_LEDS!11@NUMBER_LEDS_WITH_HEIGHT!43@NUMBER_LEDS_WITH_HEIGHT!35@NUMBER_LEDS_WITH_HEIGHT!11@NUMBER_LEDS!43@
+one|1|ONE_REVOLUTION!35@
+par|2|parse_message!18@parse_message!10@
+ref|2|REFERENCE_LEDS!43@REFERENCE_RELATIVE!43@
+res|2|RESOLUTION_LED_STRIP!11@RESOLUTION_LED_STRIP!35@
+sca|4|scaleValue!10@scaleFunctionRain!10@scaleFunctionRain!18@scaleValue!18@
+sen|1|send_arduino!34@
+set|8|setLevel!34@setMinPosition!34@setSingleAnimation!34@setAnimation!34@setLed!34@setLedWithEffect!34@setLeds!34@setMaxPosition!34@
+sid|2|sides!27@sides!11@
+spe|2|speeds!11@speeds!27@
+spi|3|spi!19@SPI!57@spi!35@
+ste|2|STEPS_PER_REVOLUTION!35@STEP_MODE_HEIGHT_MOVEMENT!43@
+tem|1|TEMP_ONE_STEP!11@
+upp|1|UPPER_BUFFER!43@
+val|1|ValueHolder!41@
+wea|1|weatherModes!11@
+zer|1|ZERO_CELCIUS!11@
+-- END TREE
+-- START TREE 2
+24
+__i|3|__init__!8&42@__init__!9&58@__init__!10&50@
+add|2|addNewValueObject!10&50@addSubValue!11&43@
+bri|1|brigthness!11&43@
+bus|1|bus!12&59@
+clo|1|close!9&58@
+col|1|color!11&43@
+cur|1|currentHeight!8&43@
+del|1|delay!13&51@
+dev|1|device!12&59@
+dis|4|displayFromBottomToTop!8&42@displayRelative!8&42@displayFromBottomToTopMovingHeight!8&42@displays!10&51@
+ope|1|open!9&58@
+ove|3|overfilledWarning!8&43@overfilledWarning!14&43@overfilledWarning!15&43@
+pat|2|pathOfValueJSON!11&43@pathOfValueXML!11&43@
+pre|7|previousValue!8&43@previousValue!11&43@previousValue!16&43@previousValue!17&43@previousValue!14&43@previousValue!15&43@previousValue!18&43@
+ref|5|referenceLedInit!8&43@referenceLedInit!14&43@referenceLedInit!15&43@referenceLedInit!18&43@referenceValue!11&43@
+req|3|requestXML!8&42@requestURL!11&43@requestJSON!8&42@
+run|1|run!10&50@
+sca|2|scale!8&42@scaleFunction!11&43@
+sen|1|send_message!9&58@
+set|4|setAddSubValue!8&42@setValueXML!8&42@setValue!8&42@setValueJson!8&42@
+sid|1|side!11&43@
+spi|1|spi!12&59@
+ste|1|stepSize!11&43@
+val|6|value!8&43@value!11&43@value!19&43@value!20&43@value!16&43@value!17&43@
+-- END TREE

@@ -1,0 +1,39 @@
+package gui_control.ScenarioModel;
+
+public class ScenarioModel {
+	String requestURL;
+	String pathToXML;
+	String pathToJson;
+	
+	public ScenarioModel(String requestURL, String pathToXML, String pathToJson) {
+		this.requestURL = requestURL;
+		this.pathToXML = pathToXML;
+		this.pathToJson = pathToJson;
+	}
+
+	public String getRequestURL() {
+		return requestURL;
+	}
+
+	public void setRequestURL(String requestURL) {
+		this.requestURL = requestURL;
+	}
+
+	public String getPathToXML() {
+		return pathToXML;
+	}
+
+	public void setPathToXML(String pathToXML) {
+		this.pathToXML = pathToXML;
+	}
+
+	public String getPathToJson() {
+		return pathToJson;
+	}
+
+	public void setPathToJson(String pathToJson) {
+		this.pathToJson = pathToJson;
+	}
+
+	
+}

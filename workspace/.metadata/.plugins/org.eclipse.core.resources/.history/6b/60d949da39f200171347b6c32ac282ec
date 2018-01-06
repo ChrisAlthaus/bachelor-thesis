@@ -1,0 +1,5 @@
+package gui_control.MovingBarSettingView;
+
+public class MessageHandler {
+
+}

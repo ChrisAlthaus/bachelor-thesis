@@ -1,0 +1,30 @@
+package gui_control.WirelessConnection;
+
+import java.awt.Color;
+
+public class MessageHandler {
+	//DISPLAY:SIDE//DISPLAYCOLOR//REFERENCECOLOR//REFERENCE//ADDSUBVALUE//STEPSIZE//URL//PATHXML//PATHJSON 
+	private static BluetoothConnection wirelessConnection = new BluetoothConnection();
+
+	public void updateMovingBarSide(String side, Color displayColor, Color referenceColor, int referenceValue, int addSubValue,
+			int stepsize, String url, String pathXML, String pathJson){
+		String message= "DISPLAY:"+ side + "//" + getHexValue(displayColor) + "//" + getHexValue(referenceColor) + "//" +
+						referenceValue + "//" + addSubValue + "//" + stepsize + "//" +  getUrlWithoutPrefix(url) + "//" +
+						pathXML + "//" + pathJson;
+		
+		if(wirelessConnection.isDeviceSet()){
+			wirelessConnection.sendMessage(message);
+		}
+	}
+	
+	public String getHexValue(Color color){
+		return String.format("#%06x", color.getRGB() & 0x00FFFFFF);
+	}
+	
+	public String getUrlWithoutPrefix(String urlWithPrefix){
+		String url = urlWithPrefix.replaceAll("http://", "");
+		url= urlWithPrefix.replaceAll("https://", "");
+		
+		return url;
+	}
+}

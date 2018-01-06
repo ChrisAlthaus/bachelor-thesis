@@ -1,0 +1,79 @@
+package gui_control.Database;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.Date;
+
+import javafx.scene.paint.Color;
+
+public class database {
+	
+	public database(){
+		
+	}
+	
+	public static void connect(){
+		Connection c = null;
+		
+		try {
+			c = DriverManager.getConnection("jdbc:sqlite:database.db");
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		System.out.println("Connection to SQLite has been established.");
+	}
+	
+	public void createTables() throws SQLException{
+		Connection c = null;
+		Statement stmt = null;
+
+		try {
+			c = DriverManager.getConnection("jdbc:sqlite:database.db");
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		stmt = c.createStatement();
+        String sql = "CREATE TABLE MOVINGBAR " +
+                       "(NAME 			TEXT  PRIMARY KEY     NOT NULL," +
+                       " DISPLAYCOLOR   TEXT    NOT NULL, " + 
+                       " REFERENCECOLOR TEXT     NOT NULL, " + 
+                       " MODE TEXT     NOT NULL, " + 
+                       " REFERENCEVALUE INT NOT NULL, " + 
+                       " STEPSIZE INT NOT NULL"; 
+        stmt.executeUpdate(sql);
+        
+        stmt = c.createStatement();
+        sql = "CREATE TABLE MODES " +
+                       "(NAME 			TEXT  PRIMARY KEY     NOT NULL"; 
+        stmt.executeUpdate(sql);
+        
+        stmt = c.createStatement();
+        sql = "CREATE TABLE SCENARIOS " +
+                       "(NAME 			TEXT  PRIMARY KEY     NOT NULL"+
+                       " PATHXML   TEXT, " + 
+                       " PATHJSON TEXT, " + 
+                       " CREATIONDATE TEXT     NOT NULL, " + 
+                       " UPDATEDURATION INT NOT NULL";
+        stmt.executeUpdate(sql);
+       
+        String requestURL;
+    	String pathToXML;
+    	String pathToJson;
+    	String name;
+    	Date creationDate;
+    	double updateDuration;
+        
+        stmt.close();
+        c.close();
+        
+	}
+	
+}
+
+	
+

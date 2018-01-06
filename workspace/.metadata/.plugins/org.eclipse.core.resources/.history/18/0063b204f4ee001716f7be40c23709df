@@ -1,0 +1,7 @@
+package mainView;
+
+import javafx.fxml.FXML;
+
+public class MainController {
+	
+}

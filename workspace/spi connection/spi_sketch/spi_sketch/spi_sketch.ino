@@ -10,13 +10,14 @@
 #include <SPI.h>
 
 char buf [100];
+//char sendMessage[7] = "hi    ";
 volatile byte pos;
 volatile boolean process_it;
 int errors =0;
 
 void setup (void)
 {
-  Serial.begin (1000000);   // debugging
+  Serial.begin (9600);   // debugging
 
   // have to send on master in, *slave out*
   pinMode(MISO, OUTPUT);
@@ -38,20 +39,19 @@ void setup (void)
 ISR (SPI_STC_vect)
 {
 byte c = SPDR;  // grab byte from SPI Data Register
-//SPDR = 1;
-  if(c == 'H'){
-    SPDR = 'B';
-  }
+  
   // add to buffer if room
   if (pos < sizeof buf)
     {
+    //SPDR= sendMessage[pos];
     buf [pos++] = c;
     //Serial.println(c);
-    
+  
     // example: newline means time to process buffer
     if (c == '\n')
       process_it = true;
-      
+      Serial.println("recv=");
+      Serial.println(buf);
     }  // end of room available
 }  // end of interrupt routine SPI_STC_vect
 
@@ -62,7 +62,7 @@ void loop (void)
   if (process_it)
     {
     buf [pos] = 0;  
-    Serial.println(buf);
+    
     if(sizeof(buf)!=100){
       Serial.println("error");
     }

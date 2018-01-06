@@ -1,0 +1,7 @@
+package gui_control.mainView;
+
+import javafx.fxml.FXML;
+
+public class MainController {
+	
+}

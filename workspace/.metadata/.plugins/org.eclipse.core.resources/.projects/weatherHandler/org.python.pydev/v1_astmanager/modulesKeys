@@ -1,0 +1,9 @@
+MODULES_MANAGER_V2
+spi.__init__|C:\Users\Christian\Desktop\Informatik\7.Semester\Bachelorarbeit\workspace\weatherHandler\src\spi\__init__.py
+spi.spiConnection|C:\Users\Christian\Desktop\Informatik\7.Semester\Bachelorarbeit\workspace\weatherHandler\src\spi\spiConnection.py
+weatherHandler.__init__|C:\Users\Christian\Desktop\Informatik\7.Semester\Bachelorarbeit\workspace\weatherHandler\src\weatherHandler\__init__.py
+weatherHandler.displayHandler|C:\Users\Christian\Desktop\Informatik\7.Semester\Bachelorarbeit\workspace\weatherHandler\src\weatherHandler\displayHandler.py
+weatherHandler.messageHandler|C:\Users\Christian\Desktop\Informatik\7.Semester\Bachelorarbeit\workspace\weatherHandler\src\weatherHandler\messageHandler.py
+weatherHandler.modes|C:\Users\Christian\Desktop\Informatik\7.Semester\Bachelorarbeit\workspace\weatherHandler\src\weatherHandler\modes.py
+weatherHandler.valueHolder|C:\Users\Christian\Desktop\Informatik\7.Semester\Bachelorarbeit\workspace\weatherHandler\src\weatherHandler\valueHolder.py
+weatherHandler.weatherHandler|C:\Users\Christian\Desktop\Informatik\7.Semester\Bachelorarbeit\workspace\weatherHandler\src\weatherHandler\weatherHandler.py
