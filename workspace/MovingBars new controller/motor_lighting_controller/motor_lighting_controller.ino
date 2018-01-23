@@ -1,10 +1,11 @@
+
 #include <Stepper-MotorControl.h>
 #include <AlaLedLite.h>         // modified Arduino Animation Library http://yaab-arduino.blogspot.de/p/ala.html
 #include <Debugger.h> 
 #include <String.h>
 
 #include "Modes.h"
-//#include <SPI.h>
+#include <SPI.h>
 
 #define BAUD_RATE       9600 
 
@@ -28,6 +29,9 @@ boolean _hasNewTargetPosition = false;
 int counter=1;
 boolean flag=false;
 
+ int rgba[4] = { 10, 255, 50, 100};
+ 
+
 
 void setup() {
   //Serial.begin(BAUD_RATE);
@@ -43,7 +47,7 @@ void setup() {
   process_it = false;
 
   // turn on interrupts
-  //SPI.attachInterrupt();
+  SPI.attachInterrupt();
   SPCR |= _BV(SPIE);
   
   //Pin configuration for stepper motor
@@ -63,12 +67,14 @@ void setup() {
   //Setup led stripes
   led.initBarStripes(LED_PIN); 
   //led.setRefreshRate(10); //adjust when flickering
+
 }
 
 void loop() {
   //led.printValues();
- 
+ //Serial.println("loop");
  /* 
+  *  Serial.println("available Bytes=");
  int availableBytes=Serial.available();
   //delay(1000);
   //Serial.println("available Bytes=");
@@ -110,18 +116,30 @@ void loop() {
 	  //Serial.println(message);
 	  parseMessage();
   } 
-  
+  /*setLighting("A", 1,1, rgba);
+  setLighting("B", 1,1, rgba);
+  setLighting("C", 1,1, rgba);
+  setLighting("D", 1,1, rgba);
+delay(4000);
+  setLighting("B", 1,3, rgba);
+  setLighting("B", 1,4, rgba);
+  delay(7000);
+  setLighting("A", 2,1, rgba);
+  setLighting("B", 2,1, rgba);
+  setLighting("C", 2,1, rgba);
+  setLighting("D", 2,1, rgba);
 
 
-    /*if(!flag){
-       ctl.calibrate();
-       flag=true;
-
-       delay(4000);
+   delay(7000);
+   ctl.calibrate();
+   delay(4000);
+   handleMove("UP",400);
+*/
+       
        //doMovement(50,"HALF");
       
-    }
-   
+    
+   /*
     int rgba[4] = { 0, 0, 0, -1};
     rgba[0] = 10;
     rgba[1] = 255;
@@ -137,11 +155,21 @@ void loop() {
     delay(4000);
     handleMove("UP",400);
 */
+  //setLighting("D", 1,9, rgba);
+  //setLighting("A", 1,10, rgba);
+
+   //setLighting("D", 1,10, rgba);
+  //setLighting("A", 1,11, rgba);
                          // wait for a second
     // Perfom animations:
     // 1. setAnimation
     // 2. runAnimation
   led.runAnimation();
+
+  //delay(2000);
+  //led.setBrightness(AlaColor(100, 100, 100));
+   //delay(2000);
+  //led.setBrightness(AlaColor(10, 10, 10));
   //testButtons();*/
   //delay(100);
 }
@@ -191,13 +219,9 @@ void testButtons(){
 
 void parseMessage() {
   int mode=message[0];
-  int rgba[4] = { 0, 0, 0, -1};
-    rgba[0] = 10;
-    rgba[1] = 255;
-    rgba[2] = 50;
-    rgba[3] = 100;
-  Serial.println("Parsing message....");
-  setLighting("A", 1,1, rgba);
+  
+  //Serial.println("Parsing message....");
+  //setLighting("D", 1,1, rgba);
   //int i=0;
   //while(message[i]!='\n'){
    // Serial.println(message[i]);
@@ -213,37 +237,37 @@ void parseMessage() {
 	    doMovement(targetPosition,stepMode);
     }
 
-    debug.println("MOVE:", targetPosition); 
-    debug.println(stepMode); 
+    //debug.println("MOVE:", targetPosition); 
+    //debug.println(stepMode); 
     
   }else if(mode == MODE.UP){
-    int steps=400;//getNumberFromBytes(message[1],message[2]);
+    int steps=getNumberFromBytes(message[1],message[2]);
     //setLighting("A", 1,2, rgba);
-    Serial.println("Mode up");
-    Serial.println(message[1]);
-    Serial.println(message[2]);
+    //Serial.println("Mode up");
+    //Serial.println(message[1]);
+    //Serial.println(message[2]);
 
     
     handleMove("UP",steps);
    
-    debug.println("UP", steps); 
+    //debug.println("UP", steps); 
   
   }else if(mode == MODE.DOWN){
-    int steps=400;//getNumberFromBytes(message[1],message[2]);
+    int steps=getNumberFromBytes(message[1],message[2]);
     handleMove("DOWN",steps);
      
-    debug.println("DOWN", steps); 
+    //debug.println("DOWN", steps); 
   
   }else if(mode == MODE.INIT){
     String initMode= getInitMode(message[1]);
-     debug.println("Initialization:");
-       debug.println(message[1]);
-       debug.println(initMode);
+     //debug.println("Initialization:");
+       //debug.println(message[1]);
+       //debug.println(initMode);
    
     if(initMode=="CALIBRATE"){      
       ctl.calibrate();
-      debug.print("... OK");
-      debug.println("calibrate");
+      //debug.print("... OK");
+      //debug.println("calibrate");
       
     }else{ /* TOP or BOTTOM initialization*/
       int positionSteps=message[2];
@@ -252,18 +276,18 @@ void parseMessage() {
         //init top position
         if(isValidStepNumber(positionSteps)){
          ctl.setMaxPosition(positionSteps);
-         debug.println("INIT:TOP/", positionSteps);  
+        // debug.println("INIT:TOP/", positionSteps);  
         }else{
-          debug.println("No valid step number"); 
+          //debug.println("No valid step number"); 
         }
          
       }else if(initMode=="BOTTOM"){
         //init bottom position
          if(isValidStepNumber(positionSteps)){
           ctl.setMinPosition(positionSteps);
-          debug.println("INIT:BOTTOM/", positionSteps);  
+          //debug.println("INIT:BOTTOM/", positionSteps);  
          }else{
-          debug.println("No valid step number"); 
+          //debug.println("No valid step number"); 
          }
       }
     }
@@ -275,47 +299,60 @@ void parseMessage() {
 	  int animationType=getValueBitMask(field,7,4);
 	  int animationMode= getValueBitMask(field,3,0);
     String color=getColorHexValue(message[2],message[3],message[4]);
-    int brightness=message[5];
+    int rgbaData[4] = { 0, 0, 0, -1};
+    rgbaData[0] = 10;
+    rgbaData[1] = 255;
+    rgbaData[2] = 50;
+    rgbaData[3] = 100;
+    //setLighting("B", 1, 4, rgbaData);
     
 	  int rgba[4] = { 0, 0, 0, -1};
-	  setRGBA(rgba,color,brightness);
+	  setRGBA(rgba,color,-1);
 	
   	if(animationType == ANIMATIONTYPES.SINGLE){
-  		int durationOneCycle=getNumberFromBytes(message[6],message[7]);
-  		int field= message[8];
-  		int side=getValueBitMask(field,7,4);
+  		int durationOneCycle=getNumberFromBytes(message[5],message[6]);
+  		int field= message[7];
+  		String side=getSide(getValueBitMask(field,7,4));
   		int ledNumber=getValueBitMask(field,3,0);
-  		
+  		int rgbaData[4] = { 0, 0, 0, -1};
+    rgbaData[0] = 10;
+    rgbaData[1] = 255;
+    rgbaData[2] = 50;
+    rgbaData[3] = 100;
+    //setLighting("B", 1, 5, rgbaData);
   		setSingleAnimation(animationMode, side, ledNumber, durationOneCycle, rgba);
   		
-  		Serial.println("ANI");
-      Serial.println("animationMode=");
-      Serial.println(animationMode);
-      Serial.println("color=");
-      Serial.println(color);
-      Serial.println("brightness=");
-      Serial.println(brightness);
-      Serial.println("duration=");
-      Serial.println(durationOneCycle);
-      Serial.println("side=");
-      Serial.println(side);
-      Serial.println("led=");
-      Serial.println(ledNumber);      
+  		//Serial.println("ANI");
+      //Serial.println("animationMode=");
+      //Serial.println(animationMode);
+      //Serial.println("color=");
+      //Serial.println(color);
+      //Serial.println("brightness=");
+      //Serial.println(brightness);
+      //Serial.println("duration=");
+      //Serial.println(durationOneCycle);
+      //Serial.println("side=");
+      //Serial.println(side);
+      //Serial.println("led=");
+      //Serial.println(ledNumber);      
   	
-  	}else if(animationType == ANIMATIONTYPES.OVERALL){
-  		int speedAnimation=getNumberFromBytes(message[6],message[7]);
-  		
+  	}else if(animationType == ANIMATIONTYPES.OVERALL){ 
+  	  int speedAnimation=getNumberFromBytes(message[5],message[6]);
+  		int brightness=message[8];
+      
+      rgba[3]=brightness;
+      
   		setAnimation(animationMode, rgba, speedAnimation);
   		
-  		Serial.println("ANI");
-      Serial.println("animationMode=");
-      Serial.println(animationMode);
-      Serial.println("color=");
-      Serial.println(color);
-      Serial.println("brightness=");
-      Serial.println(brightness);
-      Serial.println("speedAnimation=");
-      Serial.println(speedAnimation);
+  		//Serial.println("ANI");
+      //Serial.println("animationMode=");
+      //Serial.println(animationMode);
+      //Serial.println("color=");
+      //Serial.println(color);
+      //Serial.println("brightness=");
+      //Serial.println(brightness);
+      //Serial.println("speedAnimation=");
+      //Serial.println(speedAnimation);
   	}
   	 
   	
@@ -326,15 +363,15 @@ void parseMessage() {
     int led=getValueBitMask(message[1],3,0);
     String color=getColorHexValue(message[2],message[3],message[4]);
     //String color=getColorHexValue(0,128,0);
-    int brightness=message[5];
-    
+     
+     int rgba[4] = { 0, 0, 0, -1};
     //rgba[0] = 10;
     //rgba[1] = 255;
     //rgba[2] = 50;
     //rgba[3] = 100;
-    //setLighting("A", 1,3, rgba);
+    //setLighting("D", 1,1, rgba);
 
-     int rgba[4] = { 0, 0, 0, -1};
+ 
 	
      // Convert HEX to RGB
     if ( operation != LIGHTOPERATIONS.REMOVE ) {
@@ -342,43 +379,39 @@ void parseMessage() {
 		rgba[0] = hexToDec(color.substring(0,2));
 		rgba[1] = hexToDec(color.substring(2,4));
 		rgba[2] = hexToDec(color.substring(4,6));
-		rgba[3] = brightness;
-		debug.println("R:", rgba[0]);
-		debug.print("G:", rgba[1]);
-		debug.print("B:", rgba[2]);
-		debug.print("Brightness:", rgba[3]); 
+		//debug.println("R:", rgba[0]);
+		//debug.print("G:", rgba[1]);
+		//debug.print("B:", rgba[2]);
+   //setLighting("D", 1,2, rgba);
     }
 
-
-    /*rgba[0] = 10;
-    rgba[1] = 255;
-    rgba[2] = 50;
-    rgba[3] = 100;
-	  rgba[0] = hexToDec(color.substring(0,2));
-    rgba[1] = hexToDec(color.substring(2,4));
-    rgba[2] = hexToDec(color.substring(4,6));
-    rgba[3] = 50;*/
     
 	// Update Lighting Pattern
     setLighting(side, operation, led, rgba);
-    //setLighting("A", 1, led, rgba);
     
     
-    Serial.println("LIGHT");
+    //Serial.println("LIGHT");
     //Serial.println(field);
-    Serial.println("side=");
-	Serial.println(side);
-	Serial.println("operation=");
-    Serial.println(operation);
-    Serial.println("led=");
-	Serial.println(led);
-    Serial.println("color=");
-	Serial.println(rgba[0]);
-	Serial.println(rgba[1]);
-	Serial.println(rgba[2]);
-    Serial.println("brightness=");
-    Serial.println(rgba[3]);
+    //Serial.println("side=");
+	//Serial.println(side);
+	//Serial.println("operation=");
+    //Serial.println(operation);
+    //Serial.println("led=");
+	//Serial.println(led);
+    //Serial.println("color=");
+	//Serial.println(rgba[0]);
+	//Serial.println(rgba[1]);
+	//Serial.println(rgba[2]);
+    //Serial.println("brightness=");
+    //Serial.println(rgba[3]);
 	
+  }else if(mode == MODE.BRIGHTNESS){
+    int brightness=message[1];
+    int rgba[4] = { 95, 66, 240, 100};
+    //setLighting("D", 1,1, rgba);
+    //setLighting("C", 1,1, rgba);
+    led.setBrightness(AlaColor(brightness, brightness, brightness));
+    
   }else if(mode == MODE.LEVEL){
 
     int ledLevel=message[1];
@@ -392,10 +425,10 @@ void parseMessage() {
     rgba[1] = hexToDec(color.substring(2,4));
     rgba[2] = hexToDec(color.substring(4,6));
     rgba[3] = brightness;
-    debug.println("R:", rgba[0]);
-    debug.print("G:", rgba[1]);
-    debug.print("B:", rgba[2]);
-    debug.print("Brightness:", rgba[3]); 
+    //debug.println("R:", rgba[0]);
+    //debug.print("G:", rgba[1]);
+    //debug.print("B:", rgba[2]);
+    //debug.print("Brightness:", rgba[3]); 
       
   
     // Update Lighting Pattern
@@ -404,10 +437,10 @@ void parseMessage() {
     setLighting("C",LIGHTOPERATIONS.ADD,ledLevel,rgba);
     setLighting("D",LIGHTOPERATIONS.ADD,ledLevel,rgba);
     
-    Serial.println("LEVEL");
-    Serial.println(ledLevel);
-    Serial.println(color);
-    Serial.println(brightness);
+    //Serial.println("LEVEL");
+    //Serial.println(ledLevel);
+    //Serial.println(color);
+    //Serial.println(brightness);
   }
 
   memset(message,0,MESSAGE_LENGTH);
@@ -425,7 +458,7 @@ void handleMove(String mode,int steps){
         ctl.moveDown(steps);
       }
     }else{
-      debug.print("[Default Value: 400 Steps]");
+      //debug.print("[Default Value: 400 Steps]");
       if(mode=="UP"){
 		    //ctl.up();
         ctl.moveUp(400);
@@ -435,49 +468,38 @@ void handleMove(String mode,int steps){
     }
 	
     
-    debug.println("Current Position: ", ctl.getPosition() );
+    //debug.println("Current Position: ", ctl.getPosition() );
 }
 
 
 void setLighting(String side, int operation, int num, int rgba[4]) {
-  // Scale and set brightness
-  if (rgba[3] >= 0){
-    int brightness = getScaledBrightness(rgba[3]);
-    led.setBrightness(AlaColor(brightness, brightness, brightness)); // TODO
-  }
   
   if (operation == LIGHTOPERATIONS.ADD){
-    led.setLED(side, num, ALA_ON, AlaColor(rgba[0], rgba[1], rgba[2]));
-    Serial.println("Add led");
+    //setLighting("D", 1,4, rgba);
+    led.setLed(side, num, ALA_ON, AlaColor(rgba[0], rgba[1], rgba[2]));
+   // Serial.println("Add led");
   }else if(operation == LIGHTOPERATIONS.REMOVE){
-    led.setLED(side, num, ALA_OFF, AlaColor(0, 0, 0));
+    led.setLed(side, num, ALA_OFF, AlaColor(0, 0, 0));
   }else if (operation == LIGHTOPERATIONS.CLEARSIDE){
     led.setSide(side, ALA_OFF, AlaColor(0, 0, 0));
-     //
-    setLighting(side, 1,3, rgba);
-    led.setSide("A", ALA_OFF, AlaColor(0, 0, 0));
-    led.setSide("B", ALA_OFF, AlaColor(0, 0, 0));
-    led.setSide("C", ALA_OFF, AlaColor(0, 0, 0));
-    led.setSide("D", ALA_OFF, AlaColor(0, 0, 0));
- 
-    //led.setLED(side, num, ALA_ON, AlaColor(rgba[0], rgba[1], rgba[2]));
+    //int rgba[4] = { 10, 255, 50, 100};
+    //setLighting("D", 1,4, rgba);
   }
 
   led.setCustomLighting(true);
 }
 
-void setSingleAnimation(int animation, int side, int ledNumber, int durationOneCycle, int rgba[4]){
-  // Scale and set brightness
-  int brightness = getScaledBrightness(rgba[3]);
-  led.setBrightness(AlaColor(brightness, brightness, brightness));
+void setSingleAnimation(int animation, String side, int ledNumber, int durationOneCycle, int rgba[4]){
 
-     int rgbaData[4] = { 0, 0, 0, -1};
-    rgbaData[0] = 10;
-    rgbaData[1] = 255;
-    rgbaData[2] = 50;
+    int rgbaData[4] = { 0, 0, 0, -1};
+    rgbaData[0] = 226;
+    rgbaData[1] = 29;
+    rgbaData[2] = 29;
     rgbaData[3] = 100;
-    setLighting("B", 1, 3, rgbaData);
-  
+    
+    if(durationOneCycle==20000){
+      //setLighting("D", 1,4, rgbaData);
+    }
   if(animation== ANIMATION.BLINK){
 	
 	led.setAnimation(ALA_BLINK, side, ledNumber, durationOneCycle,AlaColor(rgba[0], rgba[1], rgba[2]));
@@ -489,20 +511,23 @@ void setSingleAnimation(int animation, int side, int ledNumber, int durationOneC
   }else if(animation == ANIMATION.STAIRCASE){
 	
 	led.setAnimation(ALA_STAIRCASE, side, ledNumber, durationOneCycle,AlaColor(rgba[0], rgba[1], rgba[2]));
-  
+  //setLighting("B", 1, 3, rgbaData);
   }else if(animation == ANIMATION.PULSESLOW){
 	
 	led.setAnimation(ALA_PULSESLOW, side, ledNumber, durationOneCycle,AlaColor(rgba[0], rgba[1], rgba[2]));
   
+  }else if(animation == ANIMATION.TRANSMISSIONFB){
+	led.setAnimation(ALA_TRANSMISSONFB, side, ledNumber, durationOneCycle,AlaColor(rgba[0], rgba[1], rgba[2]));
+  
   }else if(animation == ANIMATION.OFF){
 	
 	led.setAnimation(ALA_SINGLEANIMATIONOFF, side, ledNumber, durationOneCycle,AlaColor(rgba[0], rgba[1], rgba[2]));
-	led.setCustomLighting(true);	//animations off
+	//led.setCustomLighting(true);	//animations off
   return;
   
   }
   
-  debug.println("//// -------------------- ////");
+  /*debug.println("//// -------------------- ////");
   debug.println("Animation: ", animation);
   debug.println("Color: ", rgba[0]);
     debug.print(",", rgba[1]);
@@ -511,7 +536,7 @@ void setSingleAnimation(int animation, int side, int ledNumber, int durationOneC
   debug.println("Duration: ", durationOneCycle);
   debug.println("Side: ", side);
   debug.println("LED: ", ledNumber);
-  debug.println("//// -------------------- ////");
+  debug.println("//// -------------------- ////");*/
 
   led.setCustomLighting(false);
 }
@@ -570,7 +595,7 @@ void setAnimation(int animation, int rgba[4], int spd) {
     duration = map(spd, 0, 100, 10000, 800);
     led.setAnimation(ALA_LARSONSCANNER, duration, AlaColor(rgba[0], rgba[1], rgba[2]));
   }
-
+/*
   debug.println("//// -------------------- ////");
   debug.println("Animation: ", animation);
   debug.println("Color: ", rgba[0]);
@@ -580,9 +605,10 @@ void setAnimation(int animation, int rgba[4], int spd) {
   debug.println("Speed: ", spd);
   debug.println("Duration: ", duration);
   debug.println("//// -------------------- ////");
-
+*/
   led.setCustomLighting(false);
 }
+
 
 
 //b1=MSB and b3=LSB
@@ -654,10 +680,10 @@ void setRGBA(int rgba[4],String color,int brightness){
     rgba[1] = hexToDec(color.substring(2,4));
     rgba[2] = hexToDec(color.substring(4,6));
     rgba[3] = brightness;
-    debug.println("R:", rgba[0]);
+    /*debug.println("R:", rgba[0]);
     debug.print("G:", rgba[1]);
     debug.print("B:", rgba[2]);
-    debug.print("Brightness:", rgba[3]); 
+    debug.print("Brightness:", rgba[3]);*/ 
 
 }
 
@@ -717,6 +743,8 @@ String getAnimationMode(int animationNumber){
     return "STAIRCASE";
   }else if(animationNumber == ANIMATION.PULSESLOW){
     return "PULSESLOW";
+  }else if(animationNumber == ANIMATION.TRANSMISSIONFB){
+    return "TRANSMISSIONFB";
   }else if(animationNumber == ANIMATION.ON){
     return "ON";
   }else if(animationNumber == ANIMATION.OFF){
@@ -748,12 +776,20 @@ String getAnimationType(int animationTypeNumber){
 
 String getSide(int sideNumber){
   if(sideNumber == SIDE.A){
+    int rgba[4] = { 10, 255, 50, 100};
+    //setLighting("D", 1,8, rgba);
     return "A";
   }else if(sideNumber == SIDE.B){
+    int rgba[4] = { 10, 255, 50, 50};
+    //setLighting("D", 1,9, rgba);
     return "B";
   }else if(sideNumber == SIDE.C){
+    int rgba[4] = { 10, 255, 50, 25};
+    //setLighting("D", 1,10, rgba);
     return "C";
   }else if(sideNumber == SIDE.D){
+    int rgba[4] = { 10, 255, 50, 10};
+    //setLighting("D", 1,1, rgba);
     return "D";
   }
   

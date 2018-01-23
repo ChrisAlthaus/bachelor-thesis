@@ -4,6 +4,8 @@ spi.spiConnection|C:\Users\Christian\Desktop\Informatik\7.Semester\Bachelorarbei
 weatherHandler.__init__|C:\Users\Christian\Desktop\Informatik\7.Semester\Bachelorarbeit\workspace\weatherHandler\src\weatherHandler\__init__.py
 weatherHandler.displayHandler|C:\Users\Christian\Desktop\Informatik\7.Semester\Bachelorarbeit\workspace\weatherHandler\src\weatherHandler\displayHandler.py
 weatherHandler.messageHandler|C:\Users\Christian\Desktop\Informatik\7.Semester\Bachelorarbeit\workspace\weatherHandler\src\weatherHandler\messageHandler.py
+weatherHandler.messageReceiver|C:\Users\Christian\Desktop\Informatik\7.Semester\Bachelorarbeit\workspace\weatherHandler\src\weatherHandler\messageReceiver.py
 weatherHandler.modes|C:\Users\Christian\Desktop\Informatik\7.Semester\Bachelorarbeit\workspace\weatherHandler\src\weatherHandler\modes.py
+weatherHandler.scenarioHandler|C:\Users\Christian\Desktop\Informatik\7.Semester\Bachelorarbeit\workspace\weatherHandler\src\weatherHandler\scenarioHandler.py
+weatherHandler.test|C:\Users\Christian\Desktop\Informatik\7.Semester\Bachelorarbeit\workspace\weatherHandler\src\weatherHandler\test.py
 weatherHandler.valueHolder|C:\Users\Christian\Desktop\Informatik\7.Semester\Bachelorarbeit\workspace\weatherHandler\src\weatherHandler\valueHolder.py
-weatherHandler.weatherHandler|C:\Users\Christian\Desktop\Informatik\7.Semester\Bachelorarbeit\workspace\weatherHandler\src\weatherHandler\weatherHandler.py

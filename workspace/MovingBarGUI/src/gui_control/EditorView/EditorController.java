@@ -60,7 +60,20 @@ public class EditorController {
 			scenarioNameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
 			scenarioDateColumn.setCellValueFactory(new PropertyValueFactory<>("creationDate"));
 			
-			setScenarioList(dataHandler.getScenarios());
+			//Remove all "None" scenarios
+			ArrayList<ScenarioModel> savedScenarios = dataHandler.getScenarios();
+			ArrayList<ScenarioModel> displayScenarios = new ArrayList<ScenarioModel>();
+			
+			for(int i=0; i<savedScenarios.size(); i++){
+				ScenarioModel s= savedScenarios.get(i);
+				if(s.getName()!="(None)"){
+					displayScenarios.add(s);
+				}
+			}
+			
+			
+			setScenarioList(displayScenarios);
+			
 			for(ScenarioModel s: this.scenarios){
 				System.out.println(s);
 			}
@@ -72,6 +85,8 @@ public class EditorController {
 		public void setScenarioList(ArrayList<ScenarioModel> scenarios){
 			this.scenarios = FXCollections.observableArrayList(scenarios);
 		}
+		
+		
 
 		
 		public void addScenario() throws IOException{

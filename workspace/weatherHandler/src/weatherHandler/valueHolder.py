@@ -4,24 +4,24 @@ sys.path.append('..')
 from xml.etree import ElementTree
 import requests
 from messageHandler import *
-from messageHandler import moveToPercentage
 
 
 MAX_LED_BRIGHTNESS = 100
 NUMBER_LEDS_WITH_HEIGHT = 19
 NUMBER_LEDS = 11
-UPPER_BUFFER = 2  #to recognize highest led, led range[1,9]
+UPPER_BUFFER = 1  #to recognize highest led, led range[1,9]
 REFERENCE_RELATIVE = 6
 REFERENCE_LEDS = 1
 STEP_MODE_HEIGHT_MOVEMENT = "HALF"
 
 
-colors = {    'black':"0x000000", 
-            'white':"0xFFFFFF", 
-            'black':"0x000000", 
-            'red':"0xFF0000", 
-            'green':"0x00FF00", 
-            'blue':"0x0000FF" };
+colors = {  'black':"000000", 
+            'white':"FFFFFF",
+            'red':"FF0000", 
+            'green':"00FF00", 
+            'blue':"0000FF",
+            'yellow':"EEEE00",
+            'orange':'FFA500' };
 
 class ValueHolder:
     previousValue=0
@@ -30,36 +30,40 @@ class ValueHolder:
     overfilledWarning=False
     currentHeight=0  
      #TODO: displayMode
-    def __init__(self,requestURL,pathOfValueXML,pathOfValueJSON,referenceValue,scaleFunction,addSubValue,stepSize,side,color,brigthness):
+    
+    def __init__(self,side,displayColor,referenceColor,referenceValue,stepSize,mode,requestURL,pathOfValueXML,pathOfValueJSON):
         self.requestURL="http://"+requestURL
         self.pathOfValueXML=pathOfValueXML
         self.pathOfValueJSON=pathOfValueJSON
         self.referenceValue=referenceValue
-        self.scaleFunction=scaleFunction
-        self.addSubValue=addSubValue
+        #self.scaleFunction=scaleFunction
         self.stepSize=stepSize        #TODO: better intervall with [(min,min+1),....,(max-1,max)]
         self.side=side
-        self.color=color
-        self.brigthness=brigthness
+        self.color=displayColor
+        self.referenceColor=referenceColor
+        self.mode=mode
         
         self.value=referenceValue
         self.previousValue=referenceValue
         
-    def scale(self):        #scale value, e.g. unit conversion
-        if self.scaleFunction is not None:
-            self.value=self.scaleFunction(self.value)
+        print(self.referenceValue)
         
-    def setAddSubValue(self):        #shift value to other range
-        self.value=self.value+self.addSubValue
-        
+    #def scale(self):        #scale value, e.g. unit conversion
+     #   if self.scaleFunction is not None:
+      #      self.value=self.scaleFunction(self.value)
+
     
     def requestJSON(self):
         responseData=None
         try:
             r = requests.get(self.requestURL)
             responseData = r.json()
-        except requests.exceptions.ConnectionError:
-            print("Connection refused")
+        except requests.exceptions.RequestException as e:
+            print(e)
+            setSingleAnimation("BEACON", self.side, NUMBER_LEDS, 10000, colors['yellow'])  #show warning, if url unreachable
+        except ValueError as  e:
+            print(e)
+            setSingleAnimation("BEACON", self.side, NUMBER_LEDS, 10000, colors['orange'])   #show warning, if parse error
         
         return responseData
         
@@ -68,8 +72,11 @@ class ValueHolder:
         try:
             r = requests.get(self.requestURL)
             responseData= ElementTree.fromstring(r.content)
-        except requests.exceptions.ConnectionError:
-            print("Connection refused")
+        except requests.exceptions.RequestException as e:
+            print(e)
+            setSingleAnimation("BEACON", self.side, NUMBER_LEDS, 10000, colors['yellow'])  #show warning, if url unreachable
+        except ElementTree.ParseError:
+            setSingleAnimation("BEACON", self.side, NUMBER_LEDS, 10000, colors['orange'])  #show warning, if parse error
         
         return responseData
             
@@ -98,8 +105,8 @@ class ValueHolder:
         if isinstance(valueField,str):
             self.value=float(valueField)
         
-        self.setAddSubValue()    
-        self.scale()
+        #self.setAddSubValue()    
+       #self.scale()
     
     def setValueXML(self):
         self.previousValue=self.value
@@ -130,8 +137,8 @@ class ValueHolder:
             self.value=float(temp)
         
         
-        self.setAddSubValue()
-        self.scale()
+        #self.setAddSubValue()
+        #self.scale()
         
         
     def setValue(self):
@@ -143,52 +150,71 @@ class ValueHolder:
         else:
             print("No path value set.")        #error log
         
+        
+    def display(self):
+        if(self.mode=="FROMBOTTOMTOTOP"):
+            self.displayFromBottomToTop()
+        elif(self.mode=="RELATIVE"):
+            self.displayRelative()
+        elif(self.mode=="MOVINGHEIGHT"):
+            self.displayFromBottomToTopMovingHeight()
+        else:
+            print("No valid display mode")
+            
+            
+        
     def displayRelative(self):
         previousNumberLeds=round((self.previousValue-self.referenceValue)/self.stepSize)
         numberLeds=round((self.value-self.referenceValue)/self.stepSize)
-        #print(numberLeds,previousNumberLeds)
-        #print(self.previousValue,self.referenceValue)
-        #print(self.value)
+        print(numberLeds,previousNumberLeds)
+        print(self.previousValue,self.value)
+        print(self.referenceValue)
         
+        if(self.referenceLedInit is False):
+            setLed(self.side,"ADD",6,self.referenceColor)    #set reference white led
+            self.referenceLedInit=True
+        
+        if((6+previousNumberLeds)>NUMBER_LEDS):
+            previousNumberLeds= int((NUMBER_LEDS-REFERENCE_LEDS)/2)  #number of leds for upper and lower half
+        elif((6+previousNumberLeds)<1):
+            previousNumberLeds= -int((NUMBER_LEDS-REFERENCE_LEDS)/2)  #number of leds for upper and lower half
        
         if((6+numberLeds)>NUMBER_LEDS):
-            setSingleAnimation("BEACON", self.side, NUMBER_LEDS, 10000, self.color, self.brigthness)  #show warning, if overfilled  
-            numberLeds=NUMBER_LEDS
+            setSingleAnimation("BEACON", self.side, NUMBER_LEDS, 10000, self.color)  #show warning, if overfilled  
+            numberLeds=int((NUMBER_LEDS-REFERENCE_LEDS)/2)
             self.overfilledWarning=True
         elif((6+numberLeds)<1):
-            setSingleAnimation("BEACON", self.side, 1, 10000, self.color, self.brigthness)  #show warning, if overfilled
-            numberLeds=1
+            setSingleAnimation("BEACON", self.side, 1, 10000, self.color)  #show warning, if overfilled
+            numberLeds=-int((NUMBER_LEDS-REFERENCE_LEDS)/2)
             self.overfilledWarning=True
         else:
             if(self.overfilledWarning):
-                setSingleAnimation("OFF", self.side, 1, 10000, self.color, self.brigthness)  #stop animation
-                setLeds(self.side,"REMOVE",list(1,NUMBER_LEDS),0,0)     #clear warning leds,if stopped in on state
+                setSingleAnimation("OFF", self.side, 1, 10000, self.color)  #stop animation
+                setLeds(self.side,"REMOVE",list([1,NUMBER_LEDS]),0)     #clear warning leds,if stopped in on state
                 self.overfilledWarning=False
                
-        if(numberLeds>0):
+        if(numberLeds>=0):
             if(previousNumberLeds<=0):
-                setLeds(self.side,"REMOVE",range(6+previousNumberLeds,6)[0:],0,0)        #delete part below reference led
-                setLeds(self.side,"ADD",range(6,6+numberLeds+1)[1:],self.color,0)                #add part above
+                setLeds(self.side,"REMOVE",range(6+previousNumberLeds,6)[0:],0)        #delete part below reference led
+                setLeds(self.side,"ADD",range(6,6+numberLeds+1)[1:],self.color)                #add part above
             elif(previousNumberLeds>0):
                 if(numberLeds<previousNumberLeds):
                     difference=previousNumberLeds-numberLeds
-                    setLeds(self.side,"REMOVE",range(6+numberLeds,6+previousNumberLeds)[1:],0,0)    #delete part above new led number
+                    setLeds(self.side,"REMOVE",reversed(range(6+numberLeds,6+previousNumberLeds)[1:]),0)    #delete part above new led number
                 elif(numberLeds>previousNumberLeds):
-                    setLeds(self.side,"ADD",range(6+previousNumberLeds,6+numberLeds+1)[1:],self.color,0)        #add part above
+                    setLeds(self.side,"ADD",range(6+previousNumberLeds,6+numberLeds+1)[1:],self.color)        #add part above
         elif(numberLeds<0):
             if(previousNumberLeds>=0):
-                setLeds(self.side,"REMOVE",range(6,6+previousNumberLeds+1)[1:],0,0)        #delete part above reference led
-                setLeds(self.side,"ADD",range(6+numberLeds,6)[0:],self.color,0)                    #add part below
+                setLeds(self.side,"REMOVE",reversed(range(6,6+previousNumberLeds+1)[1:]),0)        #delete part above reference led
+                setLeds(self.side,"ADD",reversed(range(6+numberLeds,6)[0:]),self.color)                    #add part below
             elif(previousNumberLeds<0):
                 if(numberLeds>previousNumberLeds):
                     difference=numberLeds-previousNumberLeds
-                    setLeds(self.side,"REMOVE",range(6+previousNumberLeds,6+numberLeds)[0:],0,0)    #delete part below new led number
+                    setLeds(self.side,"REMOVE",reversed(range(6+previousNumberLeds,6+numberLeds)[0:]),0)    #delete part below new led number
                 elif(numberLeds<previousNumberLeds):
-                    setLeds(self.side,"ADD",range(6+numberLeds,6+previousNumberLeds)[0:],self.color,0)        #add part below
+                    setLeds(self.side,"ADD",reversed(range(6+numberLeds,6+previousNumberLeds)[0:]),self.color)        #add part below
                     
-        if(self.referenceLedInit is False):
-            setLed(self.side,"ADD",6,colors['white'],self.brigthness)    #set reference white led
-            self.referenceLedInit=True
+       
             
         self.previousValue=self.value
     
@@ -196,38 +222,41 @@ class ValueHolder:
     def displayFromBottomToTop(self):
         
         previousNumberLeds=round((self.previousValue-self.referenceValue)/self.stepSize)
-        numberLeds=round((self.value-self.referenceValue)/self.stepSize)            
+        numberLeds=round((self.value-self.referenceValue)/self.stepSize)  
+        print("current value=", self.value)          
         
         if(numberLeds<0): #set to zero leds
             numberLeds=0
-        elif(previousNumberLeds<0):
+        if(previousNumberLeds<0):
             previousNumberLeds=0   
         
+        print(numberLeds,previousNumberLeds)
            
-        maxQuantity=NUMBER_LEDS-UPPER_BUFFER-REFERENCE_LEDS       #led number range [1,8]
+        maxQuantity=NUMBER_LEDS-UPPER_BUFFER-REFERENCE_LEDS       #led number range [1,9]
         
         if(numberLeds>maxQuantity):          
             numberLeds=maxQuantity
             if(self.overfilledWarning is False):
-                setSingleAnimation("BEACON", self.side, NUMBER_LEDS, 10000, self.color, self.brigthness)    
+                setSingleAnimation("BEACON", self.side, NUMBER_LEDS, 10000, self.color)    
                 self.overfilledWarning=True
         else:
             if(self.overfilledWarning):
-                setSingleAnimation("OFF", self.side, 1, 10000, self.color, self.brigthness)  #stop animation
-                setLed(self.side,"REMOVE",NUMBER_LEDS,0,0)     #clear warning leds,if stopped in on state
+                setSingleAnimation("OFF", self.side, NUMBER_LEDS, 10000, self.color)  #stop animation
+                setLed(self.side,"REMOVE",NUMBER_LEDS,0)     #clear warning leds,if stopped in on state
                 self.overfilledWarning=False
                    
         if(previousNumberLeds>maxQuantity):
             previousNumberLeds=maxQuantity
             
         if(self.referenceLedInit is False):  #Not initialized
-                setLed(self.side,"ADD",1,colors['white'],self.brigthness)    #set reference white led
+                setLed(self.side,"ADD",1,self.referenceColor)    #set reference white led
                 self.referenceLedInit=True
-                
+              
         if(numberLeds>previousNumberLeds):  #led display range [REFERENCE_LEDS+1,9]
-            setLeds(self.side,"ADD",range(previousNumberLeds+REFERENCE_LEDS,numberLeds+REFERENCE_LEDS+1)[1:],self.color,self.brigthness) 
+            print("display") 
+            setLeds(self.side,"ADD",range(previousNumberLeds+REFERENCE_LEDS,numberLeds+REFERENCE_LEDS+1)[1:],self.color) 
         elif(numberLeds<previousNumberLeds):
-            setLeds(self.side,"REMOVE",range(numberLeds+REFERENCE_LEDS,previousNumberLeds+REFERENCE_LEDS+1)[1:],0,0)
+            setLeds(self.side,"REMOVE",reversed(range(numberLeds+REFERENCE_LEDS,previousNumberLeds+REFERENCE_LEDS+1)[1:]),0)
             
         self.previousValue=self.value
         
@@ -240,8 +269,13 @@ class ValueHolder:
         print(numberLeds,previousNumberLeds)
         print(self.previousValue,self.referenceValue)
         
+        if(numberLeds<0): #set to zero leds
+            numberLeds=0
+        if(previousNumberLeds<0):
+            previousNumberLeds=0 
+            
         if(self.referenceLedInit is False):  #Not initialized
-                setLed(self.side,"ADD",1,colors['white'],self.brigthness)    #set reference white led
+                setLed(self.side,"ADD",1,self.referenceColor)    #set reference white led
                 self.referenceLedInit=True
                 
         
@@ -257,7 +291,7 @@ class ValueHolder:
             self.referenceLedInit=False
             
             if(previousNumberLeds<=maxQuantity):
-                setLed(self.side,"ADD",1,self.color,self.brigthness) #e.g. 9 new, 8 old -> remove bottom reference led
+                setLed(self.side,"ADD",1,self.color) #e.g. 9 new, 8 old -> remove bottom reference led
                 moveUpNumberLeds(newNumberLeds)#move up, no led change necessary->highest led at index 9
             elif(previousNumberLeds>maxQuantity):
                 difference= abs(numberLeds-previousNumberLeds)

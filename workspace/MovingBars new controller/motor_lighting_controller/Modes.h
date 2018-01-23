@@ -9,9 +9,10 @@ struct modes{
   byte ANI;
   byte LIGHT;
   byte LEVEL;
+  byte BRIGHTNESS;
 };
 
-modes MODE={1,2,3,4,5,6,7};
+modes MODE={1,2,3,4,5,6,7,8};
 
 struct speeds{
   byte FULL;
@@ -42,6 +43,7 @@ struct animations{
   byte BEACON;
   byte STAIRCASE;
   byte PULSESLOW;
+  byte TRANSMISSIONFB;
   
   byte ON;
   byte OFF;
@@ -54,7 +56,7 @@ struct animations{
 
 };
 
-animations ANIMATION={1,2,3,4,5,6,7,8,9,10,11,12};
+animations ANIMATION={1,2,3,4,5,6,7,8,9,10,11,12,13};
 
 struct sides{
   char A;
@@ -63,7 +65,7 @@ struct sides{
   char D;
 };
 
-sides SIDE={1,2,3,4};
+sides SIDE={2,3,0,1};
 
 struct lightOperations{
   char ADD;

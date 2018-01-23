@@ -36,6 +36,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ContextMenu;
+import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TreeItem;
@@ -69,6 +70,9 @@ public class SettingRequestController {
     @FXML
     private Button saveScenarioButton;
     
+    @FXML
+    private Label statusLabel;
+    
     
     ObservableList<ScenarioModel> scenarioList = FXCollections.observableArrayList();
     
@@ -90,7 +94,7 @@ public class SettingRequestController {
 		ObservableList<String> dataTypes = FXCollections.observableArrayList("XML","JSON");
 		
 		fileTypeChoicebox.setItems(dataTypes);
-		
+		fileTypeChoicebox.setValue("XML");
 		
 	}
 	
@@ -153,26 +157,43 @@ public class SettingRequestController {
 		
 	}
 	
-	public void setTreeViewJSON(File file) throws SAXException, ParserConfigurationException, IOException{
-		
+	public void setTreeViewJSON(File file){
+		statusLabel.setText("");
 		XMLBuilder builder = new XMLBuilder();
 		
 		JSONParser parser = new JSONParser();
-		String xml = parser.getXMLString(file);
-		
-		//check if valid xml returned
-		if(xml!=null){
-			structuredTreeview.setRoot(builder.getTreeView(xml));
+		String xml;
+		try {
+			xml = parser.getXMLString(file);
+			//check if valid xml returned
+			if(xml!=null){
+				structuredTreeview.setRoot(builder.getTreeView(xml));
+			}
+		} catch (FileNotFoundException e) {
+			statusLabel.setStyle("-fx-text-box-border: red ;");
+			statusLabel.setText("Couldn't load file.");
+		} catch (SAXException | ParserConfigurationException | IOException e) {
+			statusLabel.setStyle("-fx-text-box-border: red ;");
+			statusLabel.setText("Couldn't parse file.");
 		}
+		
 		
 	}
 	
 	public void saveScenarioAndExit(){
 		ScenarioModel scenario = new ScenarioModel();
-		//String url = URLTextfield.textProperty().getValue();
+		
+		if(pathToValue==null){
+			statusLabel.setStyle("-fx-text-box-border: red ;");
+			statusLabel.setText("Please set a path.");
+			return;
+		}
+		
 		if(!url.isEmpty() && validUrl){
 			scenario.setRequestURL(url);
 		}else{
+			statusLabel.setStyle("-fx-text-inner-color: red;");
+			statusLabel.setText("Please set a valid URL.");
 			URLTextfield.setStyle("-fx-text-box-border: red ;");
 			return;
 		}
@@ -184,6 +205,8 @@ public class SettingRequestController {
 		}else if(fileType=="XML"){
 			scenario.setPathToXML(pathToValue);
 		}else{
+			statusLabel.setStyle("-fx-text-box-border: red ;");
+			statusLabel.setText("Please choose a file type.");
 			fileTypeChoicebox.setStyle("-fx-text-box-border: red ;");
 			return;
 		}
@@ -194,7 +217,9 @@ public class SettingRequestController {
 			if(!scenarioListContainsName(name)){
 				scenario.setName(name);
 			}else{
-				System.out.println("Scenario name already used.");
+				statusLabel.setStyle("-fx-text-box-border: red ;");
+				statusLabel.setText("Scenario name already in use.");
+				
 				scenarioNameTextField.setStyle("-fx-text-box-border: red ;");
 				return;
 			}
@@ -209,6 +234,9 @@ public class SettingRequestController {
 		System.out.println("saved scenario:");
 		System.out.println(scenario);
 		
+		statusLabel.setText("Scenario successfully saved.");
+		scenarioNameTextField.setStyle("");
+		
 		dataHandler.addScenario(scenario);
 		this.scenarioList.add(scenario);
 		
@@ -218,12 +246,20 @@ public class SettingRequestController {
 		StringBuilder pathBuilder = new StringBuilder();
 		for (TreeItem<String> item = structuredTreeview.getSelectionModel().getSelectedItem();
 		    item != null ; item = item.getParent()) {
-
+			
 		    pathBuilder.insert(0, item.getValue());
-		    pathBuilder.insert(0, "/");
+		    pathBuilder.insert(0, ",");
 		}
+		pathBuilder.deleteCharAt(0);
+		
+		if(fileTypeChoicebox.getSelectionModel().getSelectedItem()=="JSON"){
+			pathBuilder.delete(0,"object,".length());
+		}
+		
 		System.out.println(pathBuilder.toString());
 		pathToValue=pathBuilder.toString();
+		statusLabel.setStyle("-fx-text-box-border: green ;");
+		statusLabel.setText("Path set:"+pathToValue);
 	}
 	
 	public void downloadFile(String URL, File target, String fileType) throws IOException{
@@ -234,18 +270,23 @@ public class SettingRequestController {
 		    Files.copy(url.openStream(), targetPath, StandardCopyOption.REPLACE_EXISTING);
 		    validUrl=true;
 	    }catch(IOException e){
-	    	System.out.println("error: couldn't reach url.");
+	    	
+			statusLabel.setText("Couldn't reach URL.");
+			statusLabel.setStyle("-fx-text-inner-color: red;");
 	    	URLTextfield.setStyle("-fx-text-box-border: red ;");
+	    	System.out.println(e);
 	    	return;
 	    }
-	    
+		statusLabel.setText("");
 		URLTextfield.setStyle("");
 
 	}
 	
 	public boolean scenarioListContainsName(String name){
 		for(ScenarioModel s: this.scenarioList){
-			if(s.getName() == name){
+			System.out.println(s.getName() +","+ name);
+			if(s.getName().equals(name)){
+				System.out.println("Name already in use.");
 				return true;
 			}
 		}

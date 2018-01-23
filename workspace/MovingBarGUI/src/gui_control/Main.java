@@ -113,6 +113,7 @@ public class Main extends Application {
 		
 		//settingController.setWirelessConnectionHandler(wirelessConnection);
 		settingController.setMessageHandler(messageHandler);
+		settingController.setDataHandler(dataHandler);
 		
 		BorderPane settingView = loader.load(); 
 		mainLayout.setCenter(settingView);
@@ -129,6 +130,7 @@ public class Main extends Application {
 	
 	@Override
 	public void stop() throws Exception {
+		messageHandler.closeConnection();
 		database.insertModes(dataHandler.getModes());
 		database.insertMovingBarSideModel(dataHandler.getFrontSide());
 		database.insertMovingBarSideModel(dataHandler.getLeftSide());
@@ -136,6 +138,8 @@ public class Main extends Application {
 		database.insertMovingBarSideModel(dataHandler.getBackSide());
 		database.resetScenarioTable();
 		database.insertScenarios(dataHandler.getScenarios());
+		database.insertNetworkSocket(dataHandler.getSocket());
+		database.insertOverallSettings(dataHandler.getOverallSettings());
 	}
 
 	public static void main(String[] args) {

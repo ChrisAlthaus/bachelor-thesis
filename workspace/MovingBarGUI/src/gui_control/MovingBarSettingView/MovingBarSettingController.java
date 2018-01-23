@@ -181,12 +181,18 @@ public class MovingBarSettingController {
     							referenceValue , stepSize,frontScenarioChoicebox.getValue(), frontModeChoicebox.getValue());
     	
     	ScenarioModel frontScenario = dataHandler.getScenario(frontScenarioChoicebox.getValue());
+    	String name = frontScenario.getName();
     	String url= frontScenario.getRequestURL();
     	String pathXML = frontScenario.getPathToXML();
     	String pathJson = frontScenario.getPathToJson();
     	
+    	if(name == "(None)"){
+    		messageHandler.resetSide("A");
+    		return;
+    	}
+    	
     	messageHandler.updateMovingBarSide("A", getAwtColor(frontDisplayColor.getValue()),getAwtColor(frontReferenceColor.getValue()),
-    									referenceValue, stepSize, url,
+    									referenceValue, stepSize,frontModeChoicebox.getValue(), url,
     									pathXML, pathJson);
     	
     }
@@ -199,12 +205,18 @@ public class MovingBarSettingController {
     							referenceValue , stepSize,leftScenarioChoicebox.getValue(), leftModeChoicebox.getValue());
     	
     	ScenarioModel leftScenario = dataHandler.getScenario(leftScenarioChoicebox.getValue());
+    	String name = leftScenario.getName();
     	String url= leftScenario.getRequestURL();
     	String pathXML = leftScenario.getPathToXML();
     	String pathJson = leftScenario.getPathToJson();
     	
-    	messageHandler.updateMovingBarSide("B", getAwtColor(leftDisplayColor.getValue()),getAwtColor(leftReferenceColor.getValue()),
-    									referenceValue, stepSize, url,
+    	if(name == "(None)"){
+    		messageHandler.resetSide("D");
+    		return;
+    	}
+    	
+    	messageHandler.updateMovingBarSide("D", getAwtColor(leftDisplayColor.getValue()),getAwtColor(leftReferenceColor.getValue()),
+    									referenceValue, stepSize, leftModeChoicebox.getValue(), url,
     									pathXML, pathJson);
     }
     
@@ -216,12 +228,18 @@ public class MovingBarSettingController {
     							referenceValue , stepSize,rightScenarioChoicebox.getValue(), rightModeChoicebox.getValue());
     	
     	ScenarioModel rightScenario = dataHandler.getScenario(rightScenarioChoicebox.getValue());
+    	String name = rightScenario.getName();
     	String url= rightScenario.getRequestURL();
     	String pathXML = rightScenario.getPathToXML();
     	String pathJson = rightScenario.getPathToJson();
     	
-    	messageHandler.updateMovingBarSide("C", getAwtColor(rightDisplayColor.getValue()),getAwtColor(rightReferenceColor.getValue()),
-    									referenceValue, stepSize, url,
+    	if(name == "(None)"){
+    		messageHandler.resetSide("B");
+    		return;
+    	}
+    	
+    	messageHandler.updateMovingBarSide("B", getAwtColor(rightDisplayColor.getValue()),getAwtColor(rightReferenceColor.getValue()),
+    									referenceValue, stepSize, rightModeChoicebox.getValue(), url,
     									pathXML, pathJson);
     }
     
@@ -233,12 +251,17 @@ public class MovingBarSettingController {
     							referenceValue , stepSize, backScenarioChoicebox.getValue(), backModeChoicebox.getValue());
     	
     	ScenarioModel backScenario = dataHandler.getScenario(backScenarioChoicebox.getValue());
+    	String name = backScenario.getName();
     	String url= backScenario.getRequestURL();
     	String pathXML = backScenario.getPathToXML();
     	String pathJson = backScenario.getPathToJson();
     	
-    	messageHandler.updateMovingBarSide("D", getAwtColor(backDisplayColor.getValue()),getAwtColor(backReferenceColor.getValue()),
-    									referenceValue, stepSize, url,
+    	if(name == "(None)"){
+    		messageHandler.resetSide("C");
+    		return;
+    	}
+    	messageHandler.updateMovingBarSide("C", getAwtColor(backDisplayColor.getValue()),getAwtColor(backReferenceColor.getValue()),
+    									referenceValue, stepSize, backModeChoicebox.getValue(), url,
     									pathXML, pathJson);
     }
     

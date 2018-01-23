@@ -1,20 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-<fullyQualifiedTypeName name="java.nio.file.Path"/>
-<fullyQualifiedTypeName name="java.io.PrintWriter"/>
-<fullyQualifiedTypeName name="net.sf.json.JSONObject"/>
-<fullyQualifiedTypeName name="java.io.FileReader"/>
-<fullyQualifiedTypeName name="java.util.Scanner"/>
-<fullyQualifiedTypeName name="javafx.collections.ObservableList"/>
-<fullyQualifiedTypeName name="gui_control.XMLParser.JSONParser"/>
-<fullyQualifiedTypeName name="org.json.JSONObject"/>
-<fullyQualifiedTypeName name="org.json.XML"/>
-<fullyQualifiedTypeName name="java.nio.file.StandardCopyOption"/>
-<fullyQualifiedTypeName name="org.json.JSONException"/>
 <fullyQualifiedTypeName name="java.net.MalformedURLException"/>
 <fullyQualifiedTypeName name="javafx.scene.control.ChoiceBox"/>
 <fullyQualifiedTypeName name="javafx.scene.control.ColorPicker"/>
-<fullyQualifiedTypeName name="javafx.scene.control.TextField"/>
 <fullyQualifiedTypeName name="gui_control.MovingBarSettingView.MovingBarSettingController"/>
 <fullyQualifiedTypeName name="gui_control.SettingRequestView.SettingRequestController"/>
 <fullyQualifiedTypeName name="gui_control.EditorView.EditorController"/>
@@ -27,13 +15,10 @@
 <fullyQualifiedTypeName name="java.sql.ResultSet"/>
 <fullyQualifiedTypeName name="java.text.DateFormat"/>
 <fullyQualifiedTypeName name="java.text.SimpleDateFormat"/>
-<fullyQualifiedTypeName name="javafx.scene.paint.Color"/>
-<fullyQualifiedTypeName name="gui_control.DataHandler.DataHandler"/>
 <fullyQualifiedTypeName name="java.sql.PreparedStatement"/>
 <fullyQualifiedTypeName name="com.sun.javafx.scene.control.skin.FXVK.Type"/>
 <fullyQualifiedTypeName name="gui_control.Database.Database"/>
 <fullyQualifiedTypeName name="java.util.Date"/>
-<fullyQualifiedTypeName name="javafx.application.Platform"/>
 <fullyQualifiedTypeName name="javax.bluetooth.RemoteDevice"/>
 <fullyQualifiedTypeName name="javax.bluetooth.LocalDevice"/>
 <fullyQualifiedTypeName name="javax.bluetooth.DiscoveryAgent"/>
@@ -60,4 +45,19 @@
 <fullyQualifiedTypeName name="gui_control.WirelessConnection.MessageHandler"/>
 <fullyQualifiedTypeName name="javafx.scene.control.Accordion"/>
 <fullyQualifiedTypeName name="javafx.scene.control.TitledPane"/>
+<fullyQualifiedTypeName name="java.net.Socket"/>
+<fullyQualifiedTypeName name="java.io.PrintWriter"/>
+<fullyQualifiedTypeName name="java.io.OutputStreamWriter"/>
+<fullyQualifiedTypeName name="java.io.BufferedReader"/>
+<fullyQualifiedTypeName name="java.io.InputStreamReader"/>
+<fullyQualifiedTypeName name="javafx.scene.control.TextField"/>
+<fullyQualifiedTypeName name="gui_control.WirelessConnection.TcpConnection"/>
+<fullyQualifiedTypeName name="java.awt.Label"/>
+<fullyQualifiedTypeName name="gui_control.DataHandler.DataHandler"/>
+<fullyQualifiedTypeName name="gui_control.SocketModel.SocketModel"/>
+<fullyQualifiedTypeName name="gui_control.MovingBarOverallModel.MovingBarOverallModel"/>
+<fullyQualifiedTypeName name="javafx.scene.paint.Color"/>
+<fullyQualifiedTypeName name="javafx.application.Platform"/>
+<fullyQualifiedTypeName name="javafx.scene.control.Label"/>
+<fullyQualifiedTypeName name="javafx.scene.control.TextArea"/>
 </qualifiedTypeNameHistroy>

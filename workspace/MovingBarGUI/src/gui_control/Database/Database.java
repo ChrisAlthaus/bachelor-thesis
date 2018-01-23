@@ -12,8 +12,10 @@ import java.sql.Types;
 
 import com.sun.javafx.scene.control.skin.FXVK.Type;
 
+import gui_control.MovingBarOverallModel.MovingBarOverallModel;
 import gui_control.MovingBarSideModel.MovingBarSideModel;
 import gui_control.ScenarioModel.ScenarioModel;
+import gui_control.SocketModel.SocketModel;
 import javafx.scene.paint.Color;
 
 public class Database {
@@ -74,6 +76,20 @@ public class Database {
                        " UPDATEDURATION REAL NOT NULL)";
         stmt.executeUpdate(sql);
        
+        stmt = c.createStatement();
+        sql = "CREATE TABLE IF NOT EXISTS NETWORKSOCKET" +
+        		       "( ID INTEGER PRIMARY KEY NOT NULL,"+
+                       " IP TEXT  NOT NULL,"+
+                       " PORTNUMBER   TEXT NOT NULL) ";
+        stmt.executeUpdate(sql);
+        
+        
+        stmt = c.createStatement();
+        sql = "CREATE TABLE IF NOT EXISTS OVERALLMOVINGBARSETTINGS" +
+                       "( ID INTEGER PRIMARY KEY NOT NULL,"+
+                       	"SAMPLETIME NUMBER NOT NULL," +
+                        "BRIGHTNESS NUMBER NOT NULL) ";
+        stmt.executeUpdate(sql);
         
         stmt.close();
         c.close();
@@ -225,6 +241,50 @@ public class Database {
 	     System.out.println("Successfully inserted data.");
 	}
 	
+	public void insertNetworkSocket(SocketModel socket) throws SQLException{
+		Connection c = connect();
+		//if(c==null)return;
+		Statement stmt = null;
+		
+		c.setAutoCommit(false);
+		stmt = c.createStatement();
+		
+	
+		String sql = "INSERT OR REPLACE INTO NETWORKSOCKET (ID,IP,PORTNUMBER) " +
+                    "VALUES ( 1 ,'"+ socket.getIp() + "' ,"+ socket.getPortNumber() + ");"; 
+			
+		stmt.executeUpdate(sql);
+		
+		
+		 stmt.close();
+	     c.commit();
+	     c.close();
+	     
+	     System.out.println("Successfully inserted data.");
+	}
+	
+	public void insertOverallSettings(MovingBarOverallModel overallSettings) throws SQLException{
+		Connection c = connect();
+		//if(c==null)return;
+		Statement stmt = null;
+		
+		c.setAutoCommit(false);
+		stmt = c.createStatement();
+		
+	
+		String sql = "INSERT OR REPLACE INTO OVERALLMOVINGBARSETTINGS (ID, SAMPLETIME, BRIGHTNESS) " +
+                    "VALUES ( 1 ," + overallSettings.getSampleTime() + "," + overallSettings.getBrightness() +");"; 
+			
+		stmt.executeUpdate(sql);
+		
+		
+		 stmt.close();
+	     c.commit();
+	     c.close();
+	     
+	     System.out.println("Successfully inserted data.");
+	}
+	
 	public void resetScenarioTable() throws SQLException{
 		Connection c = connect();
 		//if(c==null)return;
@@ -345,6 +405,55 @@ public class Database {
 		c.close();
 		return result;
 	    
+	}
+	
+	
+	public SocketModel getSocket() throws SQLException{
+		Connection c = connect();
+		//if(c==null)return;
+		Statement stmt = null;
+		
+		c.setAutoCommit(false);
+		
+		stmt = c.createStatement();
+	    ResultSet rs = stmt.executeQuery( "SELECT * FROM NETWORKSOCKET;" );
+	    
+	    SocketModel result = null;
+	    
+	    if(rs.next()){
+		    String ip = rs.getString("ip");
+		    int portNumber=rs.getInt("portnumber");
+		    result = new SocketModel(ip,portNumber);
+	    }
+	    
+	    rs.close();
+	    stmt.close();
+	    c.close();
+	    return result;
+	}
+	
+	public MovingBarOverallModel getOverallSettings() throws SQLException{
+		Connection c = connect();
+		//if(c==null)return;
+		Statement stmt = null;
+		
+		c.setAutoCommit(false);
+		
+		stmt = c.createStatement();
+	    ResultSet rs = stmt.executeQuery( "SELECT * FROM OVERALLMOVINGBARSETTINGS;" );
+	    
+	    MovingBarOverallModel result = null;
+	    
+	    if(rs.next()){
+	    	int sampleTime=rs.getInt("sampletime");
+		    int brightness=rs.getInt("brightness");
+		    result = new MovingBarOverallModel(sampleTime,brightness);
+	    }
+	    
+	    rs.close();
+	    stmt.close();
+	    c.close();
+	    return result;
 	}
 	
 }

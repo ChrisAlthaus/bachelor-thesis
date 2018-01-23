@@ -6,8 +6,10 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import gui_control.Database.Database;
+import gui_control.MovingBarOverallModel.MovingBarOverallModel;
 import gui_control.MovingBarSideModel.MovingBarSideModel;
 import gui_control.ScenarioModel.ScenarioModel;
+import gui_control.SocketModel.SocketModel;
 
 
 public class DataHandler {
@@ -17,11 +19,13 @@ public class DataHandler {
 	MovingBarSideModel leftSide;
 	MovingBarSideModel rightSide;
 	MovingBarSideModel backSide;
+	MovingBarOverallModel overallSettings = new MovingBarOverallModel();
+	SocketModel socket;
 	
 	public DataHandler(){
 		addDefaultScenarios();
 		addDefaultModes();
-		
+		addDefaultSocket();
 		//TODO: load data from database
 	}
 	
@@ -30,7 +34,7 @@ public class DataHandler {
 		ScenarioModel temperatureScenario = new ScenarioModel();
 		temperatureScenario.setName("Temperature");
 		temperatureScenario.setRequestURL("http://api.openweathermap.org/data/2.5/weather?q=Hannover&APPID=d1e9d70bdb58b701b0366495d128403d&mode=xml");
-		temperatureScenario.setPathToXML("current/temperature/value");
+		temperatureScenario.setPathToXML("temperature,value");
 		temperatureScenario.setCreationDate(new Date());
 		scenarios.add(temperatureScenario);
 		
@@ -43,18 +47,29 @@ public class DataHandler {
 		
 	}
 	
+	public void addClearScenario(){
+		ScenarioModel noneScenario = new ScenarioModel();
+		noneScenario.setName("(None)");
+		scenarios.add(noneScenario);
+	}
+	
+	public void addDefaultSocket(){
+		SocketModel socket = new SocketModel("",5560);
+		this.socket = socket;
+	}
+	
 	public void loadDataFromDatabase(Database database) throws SQLException{
-		MovingBarSideModel savedFrontSide = database.getMovingBarSide("A");
+		MovingBarSideModel savedFrontSide = database.getMovingBarSide("C");
 		MovingBarSideModel savedLeftSide = database.getMovingBarSide("B");
-		MovingBarSideModel savedRightSide = database.getMovingBarSide("C");
-		MovingBarSideModel savedBackSide = database.getMovingBarSide("D");
+		MovingBarSideModel savedRightSide = database.getMovingBarSide("D");
+		MovingBarSideModel savedBackSide = database.getMovingBarSide("A");
 		
 		if(savedFrontSide!=null){
 			System.out.println("loaded from db:");
 			System.out.println(savedFrontSide);
 			frontSide = savedFrontSide;
 		}else{
-			frontSide = new MovingBarSideModel("A",modes.get(0));
+			frontSide = new MovingBarSideModel("C",modes.get(0));
 			database.insertMovingBarSideModel(frontSide);
 		}
 		
@@ -72,7 +87,7 @@ public class DataHandler {
 			System.out.println(savedRightSide);
 			rightSide = savedRightSide;
 		}else{
-			rightSide = new MovingBarSideModel("C",modes.get(0));
+			rightSide = new MovingBarSideModel("D",modes.get(0));
 			database.insertMovingBarSideModel(rightSide);
 		}
 		
@@ -81,7 +96,7 @@ public class DataHandler {
 			System.out.println(savedBackSide);
 			backSide = savedBackSide;
 		}else{
-			backSide = new MovingBarSideModel("D",modes.get(0));
+			backSide = new MovingBarSideModel("A",modes.get(0));
 			database.insertMovingBarSideModel(backSide);
 		}
 		
@@ -90,7 +105,7 @@ public class DataHandler {
 		if(savedModes!=null){
 			modes=savedModes;
 		}else{
-			database.insertModes(modes);
+			database.insertModes(modes);		//default modes
 		}
 		
 		
@@ -98,8 +113,20 @@ public class DataHandler {
 		if(savedScenarios!=null){
 			scenarios=savedScenarios;
 		}else{
-			database.insertScenarios(scenarios);
+			database.insertScenarios(scenarios);	//default scenarios
 			System.out.println("insert scenarios");
+		}
+		
+		addClearScenario();
+		
+		SocketModel savedSocket = database.getSocket();
+		if(savedSocket!=null){
+			socket=savedSocket;
+		}
+		
+		MovingBarOverallModel savedOverallSettings = database.getOverallSettings();
+		if(savedOverallSettings!=null){
+			overallSettings = savedOverallSettings;
 		}
 		
 		
@@ -174,6 +201,27 @@ public class DataHandler {
 			}
 		}
 	}
+	
+	
+
+	public MovingBarOverallModel getOverallSettings() {
+		return overallSettings;
+	}
+
+	public void setOverallSettings(MovingBarOverallModel overallSettings) {
+		this.overallSettings = overallSettings;
+	}
+	
+	
+
+	public SocketModel getSocket() {
+		return socket;
+	}
+
+	public void setSocket(SocketModel socket) {
+		this.socket = socket;
+	}
+	
 
 	public MovingBarSideModel getFrontSide() {
 		return frontSide;

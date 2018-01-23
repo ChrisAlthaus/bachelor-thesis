@@ -1,5 +1,5 @@
 import time
-from spi import *
+from spi import * #raspberry pi: from spi.spiConnection import SPI
 from modes import *
 
 MAX_LED_BRIGHTNESS = 100
@@ -14,26 +14,16 @@ LED_CHANGE_TIME_DELAY = 0.4
 
 spi=None
 
-#def main():
-#    calibrate()
-#    
-#    move(100,"HALF")
-#    moveDown(400)
-#    
-#    setAnimation("BLINK","FFFFFF",64,50)
-    
-#   setMinPosition(15600)
-    
     
     
 currentStepMode=speeds["HALF"]
 
 #initialize spi
 
-#def init_spi():
-#    global spi    
-#    spi = SPI(0,0)
-#    spi.open()
+def init_spi():
+    global spi    
+    spi = SPI(0,0)
+    spi.open()
 
 def send_arduino(message):
     #spi.send_message(message)
@@ -105,9 +95,13 @@ def setMaxPosition(stepPosition):
     
 #lighting functions
     
-def setLed(side,operation,led,color,brightness):
+def setLed(side,operation,led,color):
     message=[]
     message.append(modes["LIGHT"])
+    
+    if(led<1 or led>11):
+        return
+    
     message.append(getSideOperationLedByte(sides[side],lightOperations[operation],led))
     
     if isinstance(color,int):
@@ -118,19 +112,27 @@ def setLed(side,operation,led,color,brightness):
         except TypeError:
             print("Color must be a string or integer")          #TODO: log file
             return
-        
-    message.append(brightness)
     
-    print("LIGHT:"+str(side)+"//"+str(operation)+"//"+str(led)+"//"+str(color)+"//"+str(brightness))
+    
+    print("LIGHT:"+str(side)+"//"+str(operation)+"//"+str(led)+"//"+str(color))
     send_arduino(message)
     
+def setBrightness(brightness):
+    message=[]
+    message.append(modes["BRIGHTNESS"])
     
+    message.append(str(brightness))
+    
+    send_arduino(message)
+      
 def clearSide(side):
     message=[]
     message.append(modes["LIGHT"])
     
     message.append(sides[side])
     message.append(lightOperations["CLEARSIDE"])
+    
+    print("CLEARSIDE:"+str(side))
     
     send_arduino(message)
     
@@ -149,15 +151,16 @@ def setAnimation(animation,color,brightness,speed):
             print("Color must be a string or integer")
             
     
-    message.append(brightness)
+    
     message.extend(getByteArrayFromNumber(speed,2))
     
     message.append(getSideLedByte(0,0))
+    message.append(brightness)
     
     send_arduino(message)
     
   
-def setSingleAnimation(animation, side, ledNumber, durationOneCycle, color, brightness):
+def setSingleAnimation(animation, side, ledNumber, durationOneCycle, color):
     message=[]
     message.append(modes["ANI"])
     message.append(getTypeAnimationByte(animationTypes["SINGLE"],animations[animation]))
@@ -172,12 +175,11 @@ def setSingleAnimation(animation, side, ledNumber, durationOneCycle, color, brig
             print("Color must be a string or integer")
             
     
-    message.append(brightness)
     message.extend(getByteArrayFromNumber(durationOneCycle,2))
     
     message.append(getSideLedByte(sides[side],ledNumber))
     
-    print("ANIMATION:SINGLE"+str(animation)+"//"+str(color)+"//"+str(brightness)+"//"+
+    print("ANIMATION:SINGLE"+str(animation)+"//"+str(color)+"//"+
           str(durationOneCycle)+"//"+str(side)+"//"+str(ledNumber))
     send_arduino(message)  
     
@@ -209,12 +211,14 @@ def setLedWithEffect(side,led,color,brightness):
     time.sleep(0.5)
     setLed("A","ADD",led,color,brightness)
     
-def setLeds(side,operation,leds,color,brightness):
+def setLeds(side,operation,leds,color):
     for ledNumber in leds:
-        setLed(side,operation,ledNumber,color,brightness)
+        setLed(side,operation,ledNumber,color)
         time.sleep(LED_CHANGE_TIME_DELAY)
 
-
+       
+def showWifiConnectionError(self):
+    setSingleAnimation("BEACON", self.side, NUMBER_LEDS, 10000, colors['yellow'])  #show warning, if url unreachable  
     
     
     
@@ -250,7 +254,7 @@ def getByteArrayFromNumber(number,numberBytes):
 def getSideOperationLedByte(side,operation,led):
     number=led
     number+= operation<<4
-    number+= operation<<6
+    number+= side<<6
     
     return number
     
