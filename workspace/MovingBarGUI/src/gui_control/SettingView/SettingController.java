@@ -14,6 +14,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -39,6 +40,9 @@ public class SettingController {
 	@FXML
 	private Button statusButton;
 	
+    @FXML
+    private Button shutdownButton;
+	
 	@FXML
     private TextField brightnessTextfield;
 	
@@ -50,7 +54,6 @@ public class SettingController {
 	
     @FXML
     private Button setOverallButton;
-    
     
 
 	    
@@ -70,7 +73,6 @@ public class SettingController {
 				brightnessTextfield.setText(Integer.toString(savedOverallSettings.getBrightness()));
 				sampleTimeTextfield.setText(Integer.toString(savedOverallSettings.getSampleTime()));
 			}
-			
 	}
 	 
 	 
@@ -106,6 +108,10 @@ public class SettingController {
 		statusTextArea.clear();
 		System.out.println("getting status");
 		messageHandler.requestStatus(statusTextArea);
+	}
+	
+	public void shutdownRaspberryPi(){
+		messageHandler.shutdownRaspberryPi();
 	}
 
 

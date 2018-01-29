@@ -57,6 +57,17 @@ public class MessageHandler {
 		}
 	}
 	
+	
+	public void shutdownRaspberryPi(){
+		String sendData = "SHUTDOWNSYSTEM:";
+		
+		if(tcpConnection!=null){
+			tcpConnection.sendMessage(sendData);
+		}else{
+			System.out.println("TCP connection not properly setup.");
+		}
+	}
+	
 	public String getHexValue(Color color){
 		return String.format("%06x", color.getRGB() & 0x00FFFFFF);
 	}

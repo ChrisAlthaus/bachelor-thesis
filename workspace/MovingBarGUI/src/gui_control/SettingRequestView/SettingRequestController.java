@@ -250,13 +250,16 @@ public class SettingRequestController {
 		    pathBuilder.insert(0, item.getValue());
 		    pathBuilder.insert(0, ",");
 		}
+		System.out.println("old="+pathBuilder.toString());
 		pathBuilder.deleteCharAt(0);
 		
 		if(fileTypeChoicebox.getSelectionModel().getSelectedItem()=="JSON"){
 			pathBuilder.delete(0,"object,".length());
+		}else{
+			pathBuilder.delete(0,pathBuilder.indexOf(",")+1);
 		}
 		
-		System.out.println(pathBuilder.toString());
+		System.out.println("new="+pathBuilder.toString());
 		pathToValue=pathBuilder.toString();
 		statusLabel.setStyle("-fx-text-box-border: green ;");
 		statusLabel.setText("Path set:"+pathToValue);
