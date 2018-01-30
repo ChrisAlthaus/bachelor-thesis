@@ -1,0 +1,12 @@
+Traceback (most recent call last):
+  File "scenarioHandler.py", line 1, in <module>
+    from valueHolder import *
+  File "/home/pi/scenarioHandler/src/scenarioHandler/valueHolder.py", line 5, in <module>
+    import requests
+  File "/usr/lib/python2.7/dist-packages/requests/__init__.py", line 26, in <module>
+    from .models import Request, Response
+  File "/usr/lib/python2.7/dist-packages/requests/models.py", line 14, in <module>
+    from .hooks import dispatch_hook, HOOKS
+  File "/usr/lib/python2.7/dist-packages/requests/hooks.py", line 26, in <module>
+    """
+KeyboardInterrupt

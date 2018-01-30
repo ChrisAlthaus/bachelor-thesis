@@ -1,0 +1,39 @@
+#######################################
+# Syntax Coloring Map For Stepper-MotorControl
+#######################################
+
+#######################################
+# Datatypes (KEYWORD1)
+#######################################
+
+MotorControl				KEYWORD1	MotorControl
+
+#######################################
+# Methods and Functions (KEYWORD2)
+#######################################
+
+enable			         	KEYWORD2
+disable				        KEYWORD2
+doStep				        KEYWORD2
+isEnabled			        KEYWORD2
+up					          KEYWORD2
+down				          KEYWORD2
+setStepsPerRound    	KEYWORD2
+setStepDelay		      KEYWORD2
+moveTo                KEYWORD2
+setFullStepMode       KEYWORD2
+setHalfStepMode       KEYWORD2
+setQuarterStepMode    KEYWORD2
+setEighthStepMode     KEYWORD2
+setSixteenthStepMode  KEYWORD2
+
+
+#######################################
+# Constants (LITERAL1)
+#######################################
+
+FULL_STEP				     LITERAL1
+HALF_STEP				     LITERAL1
+QUARTER_STEP				 LITERAL1
+EIGTHTH_STEP			   LITERAL1
+SIXTEENTH_STEP			 LITERAL1
