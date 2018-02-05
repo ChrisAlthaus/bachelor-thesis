@@ -1,4 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<session version="1.0">
-<refactoring comment="Rename resource &apos;weatherHandler/src/weatherHandler/weatherHandler.py&apos; to &apos;scenarioHandler.py&apos;" description="Rename resource &apos;weatherHandler.py&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="src/weatherHandler/weatherHandler.py" name="scenarioHandler.py" stamp="1515511972743" updateReferences="true"/>
-</session>

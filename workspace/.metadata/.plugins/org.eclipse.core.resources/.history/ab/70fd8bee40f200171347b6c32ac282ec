@@ -1,7 +1,0 @@
-package gui_control.WirelessConnection;
-
-public class MessageHandler {
-	DISPLAY:SIDE//REFERENCECOLOR//DISPLAYCOLOR//BRIGHTNESS//REFERENCE//ADDSUBVALUE//STEPSIZE//URL//PATHXML//PATHJSON 
-	
-	public void updateMovingBarSide(String side, Color  )
-}
