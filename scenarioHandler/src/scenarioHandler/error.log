@@ -1,0 +1,14 @@
+Traceback (most recent call last):
+  File "scenarioHandler.py", line 211, in <module>
+    main()
+  File "scenarioHandler.py", line 72, in main
+    setupConnection()
+  File "/home/pi/scenarioHandler/src/scenarioHandler/messageReceiver.py", line 33, in setupConnection
+    conn, address = s.accept()
+  File "/usr/lib/python2.7/socket.py", line 202, in accept
+    sock, addr = self._sock.accept()
+KeyboardInterrupt
+Exception KeyboardInterrupt in <module 'threading' from '/usr/lib/python2.7/threading.pyc'> ignored
+Unhandled exception in thread started by 
+sys.excepthook is missing
+lost sys.stderr

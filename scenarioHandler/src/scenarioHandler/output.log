@@ -1,0 +1,63 @@
+CLEARSIDE:A
+Send via SPI:10648
+[6, 48]
+CLEARSIDE:B
+Send via SPI:106112
+[6, 112]
+CLEARSIDE:C
+Send via SPI:106176
+[6, 176]
+CLEARSIDE:D
+Send via SPI:106240
+[6, 240]
+ANIMATION:SINGLEOFF//FFFFFF//10000//A//1
+Send via SPI:1052325525525539161
+[5, 23, 255, 255, 255, 39, 16, 1]
+ANIMATION:SINGLEOFF//FFFFFF//10000//B//1
+Send via SPI:10523255255255391617
+[5, 23, 255, 255, 255, 39, 16, 17]
+ANIMATION:SINGLEOFF//FFFFFF//10000//C//1
+Send via SPI:10523255255255391633
+[5, 23, 255, 255, 255, 39, 16, 33]
+ANIMATION:SINGLEOFF//FFFFFF//10000//D//1
+Send via SPI:10523255255255391649
+[5, 23, 255, 255, 255, 39, 16, 49]
+display data
+delay= 60
+Socket created
+[Errno 98] Address already in use
+Socket bind complete.
+('Host ip:', '192.168.1.33 \n', ',Port:', 5560)
+Listen on a display dadisplay data
+display data
+delay= 60
+display data
+delay= 60
+display data
+delay= 60
+display data
+delay= 60
+display data
+delay= 60
+display data
+delay= 60
+display data
+delay= 60
+display data
+delay= 60
+display data
+delay= 60
+display data
+delay= 60
+display data
+delay= 60
+display data
+delay= 60
+display data
+delay= 60
+display data
+delay= 60
+display data
+delay= 60
+display data
+delay= 60
