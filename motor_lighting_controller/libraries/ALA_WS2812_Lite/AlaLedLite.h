@@ -115,9 +115,6 @@ private:
 
 	boolean _customLighting;
 	
-	//int singleAnimationLed;
-	//String singleAnimationSide;
-	//AlaColor singleAnimationColor;
 	int timeDelayOn; //in milliseconds
 	int timeDelayOff; //in milliseconds
 	int durationOneCycle;

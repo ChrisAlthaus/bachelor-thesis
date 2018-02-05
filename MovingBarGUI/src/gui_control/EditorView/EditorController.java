@@ -18,6 +18,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
@@ -106,7 +107,7 @@ public class EditorController {
 			Stage builderStage = new Stage();
 			builderStage.setTitle("Scenario Builder");
 			builderStage.initModality(Modality.NONE);
-			
+			builderStage.getIcons().add(new Image("file:icons/guiLogo.png"));
 			
 			Scene scene = new Scene(builderView);
 			builderStage.setScene(scene);

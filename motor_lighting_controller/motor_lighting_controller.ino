@@ -248,9 +248,7 @@ void parseMessage() {
     //Serial.println("led=");
 	  //Serial.println(led);
     //Serial.println("color=");
-  	//Serial.println(rgba[0]);
-  	//Serial.println(rgba[1]);
-  	//Serial.println(rgba[2]);
+  	//Serial.println(color);
     //Serial.println("brightness=");
     //Serial.println(rgba[3]);
 	

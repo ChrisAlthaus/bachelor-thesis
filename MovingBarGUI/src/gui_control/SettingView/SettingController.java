@@ -2,6 +2,8 @@ package gui_control.SettingView;
 
 import java.io.IOException;
 
+import javax.swing.BorderFactory;
+
 import gui_control.DataHandler.DataHandler;
 import gui_control.MovingBarOverallModel.MovingBarOverallModel;
 import gui_control.ScenarioModel.ScenarioModel;
@@ -21,6 +23,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.Border;
 import javafx.scene.paint.Color;
 
 public class SettingController {

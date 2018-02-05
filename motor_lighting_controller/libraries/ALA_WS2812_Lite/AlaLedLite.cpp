@@ -146,16 +146,18 @@ void AlaLedLite::setAnimation(int animation, String side, int ledNumber, int dur
 	{ delete[] pxSpeed; pxSpeed=NULL; }
 
 	this->animation = animation;   //delete from animation array
-	this->singleAnimationLedNumbers[getSideNumber(side)]= ledNumber;
 	
 	if(animation != ALA_SINGLEANIMATIONOFF){
+		this->singleAnimationLedNumbers[getSideNumber(side)]= ledNumber;
 		this->singleAnimationSides[getSideNumber(side)]=1;
         _customLighting=false;		
 	}else{
 		this->singleAnimationSides[getSideNumber(side)]=0;
-		/*if(isLedOn(sideNumber,ledNumber)){
-			setLed(side, ledNumber, ALA_OFF, AlaColor(0,0,0));
-		}*/	
+		ledNumber= singleAnimationLedNumbers[getSideNumber(side)];
+		if(ledNumber!=0){
+			setLed(side, ledNumber, ALA_OFF, AlaColor(0,0,0));	
+		}
+		
 		bool animationsOff=true;
 		for(int i=0; i<4;i++){
 			if(singleAnimationSides[i]==1){
@@ -403,22 +405,6 @@ void AlaLedLite::beaconLed(){
 
 }
 
-/*void AlaLedLite::staircaseLed(){		
-	unsigned long time= millis()-animStartTime;
-	long duration = time%durationOneCycle;
-	
-	int index = map(duration, 0, durationOneCycle, 0, NUMBER_SAMPLE_VALUES);
-	
-	if(beaconSampleValues[index]==0){
-		setLed(singleAnimationSide, singleAnimationLed, ALA_OFF, new AlaColor(0,0,0));
-	}else{
-		int scaleFactor=beaconSampleValues[index];  //intervall [1,4]
-		AlaColor color = singleAnimationColor.scale(scaleFactor);
-	
-	    setLed(singleAnimationSide, singleAnimationLed, ALA_ON, color);
-	}
-}*/
-
 void AlaLedLite::staircaseLed(){		
 	unsigned long time= millis()-animStartTime;
 	long duration = time%durationOneCycle;
@@ -458,24 +444,17 @@ void AlaLedLite::pulseSlowLed(){
 	
 	//float scaleFactor=map(pulseSlowSampleValues[index]+1, 0, 1, 0.1, 0.9);  //intervall [0.1,0.9]
 	float scaleFactor=pulseSlowSampleValues[index]+1.1;  //intervall [0.1,0.9]
-	//AlaColor color = singleAnimationColor.scale(scaleFactor);	
+	AlaColor colors[4];
 	
-	//setLedsOn(singleAnimationColors);
+	for(int i=0;i<4;i++){
+		if(singleAnimationSides[i]==true){
+			colors[i]=singleAnimationColors[i].scale(scaleFactor);
+		}
+	}
+	
+	setLedsOn(colors);
 }
 
-/*void AlaLedLite::pulseSlowLed(){
-	unsigned long time= millis()-animStartTime;
-	long duration = time%durationOneCycle;
-	
-	int index = map(duration, 0, durationOneCycle, 0, NUMBER_SAMPLE_VALUES);
-	int scaleBrightness=(pulseSlowSampleValues[index]+1)/2;
-	int brightness= map(scaleBrightness,0,1,0,100);
-	
-    setLedOn(singleAnimationSide,singleAnimationLed);
-	setBrightness(AlaColor(brightness, brightness, brightness));	
-	
-	
-}*/
 
 void AlaLedLite::transmissionFixedBrightnessLed(){
 	unsigned long time= millis()-animStartTime;
@@ -494,9 +473,8 @@ void AlaLedLite::ledAnimationOff(){
 	
 }
 
+
 void AlaLedLite::setLedsOn(AlaColor colors [4]){
-	//AlaColor color = singleAnimationColor;
-	//int side = getSideNumber(singleAnimationSide);
 	
 	for(int i=0;i<4;i++){
 		if(singleAnimationSides[i]==true){
@@ -515,6 +493,7 @@ void AlaLedLite::setLedsOn(AlaColor colors [4]){
 }
 
 void AlaLedLite::setLedsOff(){
+	
 	for(int i=0;i<4;i++){
 		if(singleAnimationSides[i]==true){
 			int side = i;

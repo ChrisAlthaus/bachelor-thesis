@@ -447,7 +447,7 @@ public class Database {
 	    if(rs.next()){
 	    	int sampleTime=rs.getInt("sampletime");
 		    int brightness=rs.getInt("brightness");
-		    result = new MovingBarOverallModel(sampleTime,brightness);
+		    result = new MovingBarOverallModel(brightness,sampleTime);
 	    }
 	    
 	    rs.close();

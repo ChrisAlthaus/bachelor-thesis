@@ -262,7 +262,7 @@ public class SettingRequestController {
 		System.out.println("new="+pathBuilder.toString());
 		pathToValue=pathBuilder.toString();
 		statusLabel.setStyle("-fx-text-box-border: green ;");
-		statusLabel.setText("Path set:"+pathToValue);
+		statusLabel.setText("Path set: "+pathToValue);
 	}
 	
 	public void downloadFile(String URL, File target, String fileType) throws IOException{
