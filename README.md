@@ -7,6 +7,5 @@ The displayed scenarios, for example the current or predicted temperature, can b
 
 **Links to Written Thesis & Presentation**
 
-Written thesis: https://www.dropbox.com/s/n5zsrz6mi4d3moz/Ambient%20Notifications%20For%20A%20Shape%20Changing%20Display.pdf?dl=0
-
+Written thesis: https://www.dropbox.com/s/n5zsrz6mi4d3moz/Ambient%20Notifications%20For%20A%20Shape%20Changing%20Display.pdf?dl=0 <br />
 Presentation: https://www.dropbox.com/s/1c8k933pfb60718/Final%20presentation.pdf?dl=0
